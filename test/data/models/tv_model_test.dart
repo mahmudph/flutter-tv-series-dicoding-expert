@@ -3,7 +3,6 @@ import 'package:ditonton/domain/entities/tv.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final now = DateTime.now();
   final tvModel = TvModel(
     backdropPath: 'backdropPath',
     genreIds: [1, 2, 3],
@@ -13,7 +12,7 @@ void main() {
     posterPath: 'posterPath',
     voteAverage: 1,
     voteCount: 1,
-    firstAirDate: now,
+    firstAirDate: "2022-08-19",
     name: 'name',
     originCountry: ['usa'],
     originalLanguage: 'en',
@@ -29,7 +28,7 @@ void main() {
     posterPath: 'posterPath',
     voteAverage: 1,
     voteCount: 1,
-    firstAirDate: now,
+    firstAirDate: "2022-08-19",
     name: 'name',
     originCountry: ['usa'],
     originalLanguage: 'en',

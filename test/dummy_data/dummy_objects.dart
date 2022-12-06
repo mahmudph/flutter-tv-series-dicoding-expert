@@ -63,7 +63,7 @@ final testMovieMap = {
 
 final testTv = Tv(
   backdropPath: 'backdropPath',
-  firstAirDate: DateTime.parse("2021-05-23"),
+  firstAirDate: "2021-05-23",
   genreIds: const [1, 2, 3],
   id: 1,
   name: 'name',

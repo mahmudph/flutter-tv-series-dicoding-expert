@@ -30,7 +30,6 @@ void main() {
     );
   });
 
-  final date = DateTime.now();
   final tvModel = TvModel(
     backdropPath: '/muth4OYamXf41G2evdrLEg8d3om.jpg',
     genreIds: [14, 28],
@@ -41,7 +40,7 @@ void main() {
     posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
     voteAverage: 7.2,
     voteCount: 13507,
-    firstAirDate: date,
+    firstAirDate: "2022-08-19",
     name: 'joko',
     originCountry: ['usa'],
     originalLanguage: 'en',
@@ -58,7 +57,7 @@ void main() {
     posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
     voteAverage: 7.2,
     voteCount: 13507,
-    firstAirDate: date,
+    firstAirDate: "2022-08-19",
     name: 'joko',
     originCountry: ['usa'],
     originalLanguage: 'en',
@@ -229,7 +228,7 @@ void main() {
       posterPath: 'posterPath',
       seasons: [
         SeasonModel(
-          airDate: DateTime.now(),
+          airDate: "2022-08-10",
           episodeCount: 1,
           id: 2,
           name: 'name',
