@@ -31,7 +31,7 @@ class TvDetail extends Equatable {
     required this.voteCount,
   });
 
-  final String backdropPath;
+  final String? backdropPath;
   final List<int> episodeRunTime;
   final DateTime firstAirDate;
   final List<Genre> genres;
@@ -49,7 +49,7 @@ class TvDetail extends Equatable {
   final String originalName;
   final String overview;
   final double popularity;
-  final String posterPath;
+  final String? posterPath;
   final List<Season> seasons;
   final String status;
   final String tagline;
