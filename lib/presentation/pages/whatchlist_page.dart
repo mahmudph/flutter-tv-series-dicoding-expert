@@ -23,15 +23,21 @@ class _WhatchlistPageState extends State<WhatchlistPage> {
           ),
           bottom: TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.movie)),
-              Tab(icon: Icon(Icons.tv)),
+              Tab(
+                icon: Icon(Icons.movie),
+                key: Key('movie'),
+              ),
+              Tab(
+                icon: Icon(Icons.tv),
+                key: Key('tv'),
+              ),
             ],
           ),
         ),
         body: TabBarView(
           children: [
-            Expanded(child: WatchlistMoviesPage()),
-            Expanded(child: TvWatchlistPage()),
+            WatchlistMoviesPage(),
+            TvWatchlistPage(),
           ],
         ),
       ),

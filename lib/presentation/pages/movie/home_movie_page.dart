@@ -63,7 +63,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state == RequestState.Loaded) {
-                  return MovieList(data.nowPlayingMovies);
+                  return MovieList(
+                    key: Key('now_playing_movie'),
+                    movies: data.nowPlayingMovies,
+                  );
                 } else {
                   return Text('Failed');
                 }
@@ -80,7 +83,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state == RequestState.Loaded) {
-                  return MovieList(data.popularMovies);
+                  return MovieList(
+                    key: Key('popular_movie'),
+                    movies: data.popularMovies,
+                  );
                 } else {
                   return Text('Failed');
                 }
@@ -97,7 +103,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state == RequestState.Loaded) {
-                  return MovieList(data.topRatedMovies);
+                  return MovieList(
+                    key: Key('top_rated_movie'),
+                    movies: data.topRatedMovies,
+                  );
                 } else {
                   return Text('Failed');
                 }
@@ -134,7 +143,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
 class MovieList extends StatelessWidget {
   final List<Movie> movies;
 
-  MovieList(this.movies);
+  MovieList({Key? key, required this.movies});
 
   @override
   Widget build(BuildContext context) {

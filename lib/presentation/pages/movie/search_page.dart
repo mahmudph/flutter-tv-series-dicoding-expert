@@ -54,6 +54,10 @@ class SearchPage extends StatelessWidget {
                       itemCount: result.length,
                     ),
                   );
+                } else if (data.state == RequestState.Error) {
+                  return Center(
+                    child: Text(data.message),
+                  );
                 } else {
                   return Expanded(
                     child: Container(),
