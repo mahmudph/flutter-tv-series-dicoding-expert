@@ -18,6 +18,8 @@ import 'package:ditonton/presentation/provider/tv_list_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_search_notifier.dart';
 import 'package:ditonton/presentation/provider/watchlist_tv_notifier.dart';
 
+import 'presentation/provider/tv_on_the_air_notifier.dart';
+
 void main() {
   di.init();
   runApp(MyApp());
@@ -66,6 +68,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistTvNotifier>(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => di.locator<TvOnTheAirNotifier>(),
         ),
       ],
       child: MaterialApp(

@@ -42,6 +42,8 @@ import 'package:ditonton/presentation/provider/watchlist_tv_notifier.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
 
+import 'presentation/provider/tv_on_the_air_notifier.dart';
+
 final locator = GetIt.instance;
 
 void init() {
@@ -80,6 +82,12 @@ void init() {
   locator.registerFactory(
     () => WatchlistMovieNotifier(
       getWatchlistMovies: locator(),
+    ),
+  );
+
+  locator.registerFactory(
+    () => TvOnTheAirNotifier(
+      getOnTheAirTvShow: locator(),
     ),
   );
 

@@ -1,6 +1,7 @@
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_detail_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_home_page.dart';
+import 'package:ditonton/presentation/pages/tv/tv_on_the_air_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_populars_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_search_page.dart';
 import 'package:ditonton/presentation/pages/tv/tv_top_rated_page.dart';
@@ -46,6 +47,8 @@ Route<dynamic>? generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => TvTopRatedPage());
     case TvSearchPage.ROUTE_NAME:
       return MaterialPageRoute(builder: (_) => TvSearchPage());
+    case TvOnTheAirPage.ROUTE_NAME:
+      return MaterialPageRoute(builder: (_) => TvOnTheAirPage());
     default:
       return MaterialPageRoute(
         builder: (_) {
