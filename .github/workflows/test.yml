@@ -1,0 +1,32 @@
+on: push
+
+jobs:
+  test:
+    name: "run flutter test"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "11"
+      - uses: subosito/flutter-action@v2
+
+        with:
+          flutter-version: "3.0.0"
+
+      - run: echo ${{ secrets.ENV }} | base64 -d > .env
+      - run: flutter --version
+
+      - run: flutter pub get
+      - run: flutter analyze
+
+      - run: "echo run flutter test in module core"
+      - run: cd modules/core && flutter test
+
+      - run: "echo run flutter test in tv feature"
+      - run: cd modules/tv_feature && flutter test
+
+      - run: "echo run flutter test in movie feature"
+      - run: cd modules/movie_feature && fltuter test
