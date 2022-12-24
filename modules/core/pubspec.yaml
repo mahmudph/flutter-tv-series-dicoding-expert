@@ -16,6 +16,7 @@ dependencies:
   equatable: ^2.0.2
   google_fonts: ^3.0.1
   http_interceptor: ^1.0.2
+  firebase_analytics: ^10.0.8
 
 dev_dependencies:
   mockito: ^5.0.8
@@ -29,8 +30,7 @@ dev_dependencies:
 flutter:
   # To add assets to your package, add an assets section, like this:
   assets:
-    - assets/circle-g.png
-  #   - images/a_dot_ham.jpeg
+    - assets/page_not_found.png
   #
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages

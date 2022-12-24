@@ -12,7 +12,7 @@ class AppInterceptor implements InterceptorContract {
 
   @override
   Future<RequestData> interceptRequest({required RequestData data}) async {
-    data.params['apikey'] = apiKey;
+    data.params['api_key'] = apiKey;
     return data;
   }
 

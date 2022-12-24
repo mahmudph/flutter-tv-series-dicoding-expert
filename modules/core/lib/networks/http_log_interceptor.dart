@@ -24,6 +24,7 @@ class AppLogInterceptor implements InterceptorContract {
 
   @override
   Future<ResponseData> interceptResponse({required ResponseData data}) async {
+    log('received data from request url ${data.request?.url} with status code ${data.statusCode}');
     return data;
   }
 }
