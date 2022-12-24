@@ -1,89 +1,110 @@
-import 'package:ditonton/common/constants.dart';
-import 'package:ditonton/common/utils.dart';
+import 'dart:async';
+import 'package:core/core.dart';
+import 'package:ditonton/injection.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:ditonton/presentation/pages/about_page.dart';
+import 'package:ditonton/presentation/pages/watchlist_page.dart';
 import 'package:ditonton/injection.dart' as di;
-import 'package:ditonton/presentation/provider/movie_detail_notifier.dart';
-import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
-import 'package:ditonton/presentation/provider/movie_search_notifier.dart';
-import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
-import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
-import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:ditonton/presentation/pages/movie/home_movie_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:ditonton/presentation/pages/routes/routes.dart';
-import 'package:ditonton/presentation/provider/popular_tv_notifier.dart';
-import 'package:ditonton/presentation/provider/top_rated_tv_notifier.dart';
-import 'package:ditonton/presentation/provider/tv_detail_notifier.dart';
-import 'package:ditonton/presentation/provider/tv_list_notifier.dart';
-import 'package:ditonton/presentation/provider/tv_search_notifier.dart';
-import 'package:ditonton/presentation/provider/watchlist_tv_notifier.dart';
+import 'package:movie_feature/movie_feature.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:tv_feature/presentation/bloc/tv_details/tv_details_cubit.dart';
+import 'package:tv_feature/tv_feature.dart';
 
-import 'presentation/provider/tv_on_the_air_notifier.dart';
+void main() async {
+  runZonedGuarded<Future<void>>(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-void main() {
-  di.init();
-  runApp(MyApp());
+      /// initialize firebase app
+      await Firebase.initializeApp();
+
+      /// initialize env
+      await dotenv.load(fileName: ".env");
+
+      /// initialize di
+      di.init(await globalContext);
+
+      runApp(MyApp());
+    },
+    (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieListNotifier>(),
+        BlocProvider<TvDetailsCubit>.value(
+          value: di.locator<TvDetailsCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieDetailNotifier>(),
+        BlocProvider<TvOnTheAirCubit>.value(
+          value: di.locator<TvOnTheAirCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<MovieSearchNotifier>(),
+        BlocProvider<TvPopularsCubit>.value(
+          value: di.locator<TvPopularsCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedMoviesNotifier>(),
+        BlocProvider<TvRecomendationsCubit>.value(
+          value: di.locator<TvRecomendationsCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularMoviesNotifier>(),
+        BlocProvider<TvSearchCubit>.value(
+          value: di.locator<TvSearchCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistMovieNotifier>(),
+        BlocProvider<TvTopRatedCubit>.value(
+          value: di.locator<TvTopRatedCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<PopularTvNotifier>(),
+        BlocProvider<TvWatchlistCubit>.value(
+          value: di.locator<TvWatchlistCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedTvNotifier>(),
+        BlocProvider<TvWatchlistStatusCubit>.value(
+          value: di.locator<TvWatchlistStatusCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TopRatedTvNotifier>(),
+        BlocProvider<MovieDetailCubit>.value(
+          value: di.locator<MovieDetailCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvDetailNotifier>(),
+        BlocProvider<NowPlayingMovieCubit>.value(
+          value: di.locator<NowPlayingMovieCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvListNotifier>(),
+        BlocProvider<PopularMovieCubit>.value(
+          value: di.locator<PopularMovieCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvSearchNotifier>(),
+        BlocProvider<RecommendationMoviesCubit>.value(
+          value: di.locator<RecommendationMoviesCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistTvNotifier>(),
+        BlocProvider<SearchMovieCubit>.value(
+          value: di.locator<SearchMovieCubit>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvOnTheAirNotifier>(),
+        BlocProvider<TopRatedMoviesCubit>.value(
+          value: di.locator<TopRatedMoviesCubit>(),
+        ),
+        BlocProvider<WatchlistMovieCubit>.value(
+          value: di.locator<WatchlistMovieCubit>(),
+        ),
+        BlocProvider<WatchlistMovieStatusCubit>.value(
+          value: di.locator<WatchlistMovieStatusCubit>(),
         ),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        navigatorObservers: [
+          routeObserver,
+          locator<FirebaseAnalyticService>().appAnalyticsObserver(),
+        ],
+        onGenerateRoute: generateRoute,
         theme: ThemeData.dark().copyWith(
           colorScheme: kColorScheme,
           primaryColor: kRichBlack,
           scaffoldBackgroundColor: kRichBlack,
           textTheme: kTextTheme,
         ),
-        home: HomeMoviePage(),
-        navigatorObservers: [routeObserver],
-        onGenerateRoute: generateRoute,
+        home: HomeMoviePage(
+          onPressAbout: AboutPage.route,
+          onPressTvs: TvHomePage.route,
+          onPressWatchlist: WatchlistPage.route,
+        ),
       ),
     );
   }

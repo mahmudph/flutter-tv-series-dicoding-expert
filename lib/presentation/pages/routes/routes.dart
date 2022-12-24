@@ -1,53 +1,54 @@
 import 'package:ditonton/presentation/pages/about_page.dart';
-import 'package:ditonton/presentation/pages/tv/tv_detail_page.dart';
-import 'package:ditonton/presentation/pages/tv/tv_home_page.dart';
-import 'package:ditonton/presentation/pages/tv/tv_on_the_air_page.dart';
-import 'package:ditonton/presentation/pages/tv/tv_populars_page.dart';
-import 'package:ditonton/presentation/pages/tv/tv_search_page.dart';
-import 'package:ditonton/presentation/pages/tv/tv_top_rated_page.dart';
-import 'package:ditonton/presentation/pages/whatchlist_page.dart';
-import 'package:ditonton/presentation/pages/movie/home_movie_page.dart';
-import 'package:ditonton/presentation/pages/movie/movie_detail_page.dart';
-import 'package:ditonton/presentation/pages/movie/popular_movies_page.dart';
-import 'package:ditonton/presentation/pages/movie/search_page.dart';
-import 'package:ditonton/presentation/pages/movie/top_rated_movies_page.dart';
+import 'package:ditonton/presentation/pages/watchlist_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_feature/movie_feature.dart';
+import 'package:tv_feature/tv_feature.dart';
 
 Route<dynamic>? generateRoute(RouteSettings settings) {
   switch (settings.name) {
-    case '/home':
-      return MaterialPageRoute(builder: (_) => HomeMoviePage());
-    case PopularMoviesPage.ROUTE_NAME:
+    case HomeMoviePage.route:
+      return MaterialPageRoute(
+        builder: (_) => HomeMoviePage(
+          onPressAbout: AboutPage.route,
+          onPressTvs: TvHomePage.route,
+          onPressWatchlist: WatchlistPage.route,
+        ),
+      );
+    case PopularMoviesPage.route:
       return CupertinoPageRoute(builder: (_) => PopularMoviesPage());
-    case TopRatedMoviesPage.ROUTE_NAME:
+    case TopRatedMoviesPage.route:
       return CupertinoPageRoute(builder: (_) => TopRatedMoviesPage());
-    case MovieDetailPage.ROUTE_NAME:
+    case MovieDetailPage.route:
       final id = settings.arguments as int;
       return MaterialPageRoute(
         builder: (_) => MovieDetailPage(id: id),
         settings: settings,
       );
-    case SearchPage.ROUTE_NAME:
+    case SearchPage.route:
       return CupertinoPageRoute(builder: (_) => SearchPage());
-    case AboutPage.ROUTE_NAME:
+    case AboutPage.route:
       return MaterialPageRoute(builder: (_) => AboutPage());
-    case HomeMoviePage.route:
-      return MaterialPageRoute(builder: (_) => HomeMoviePage());
     case TvHomePage.route:
-      return MaterialPageRoute(builder: (_) => TvHomePage());
-    case WhatchlistPage.route:
-      return MaterialPageRoute(builder: (_) => WhatchlistPage());
-    case TvDetailPage.ROUTE_NAME:
+      return MaterialPageRoute(
+        builder: (_) => TvHomePage(
+          onPressAbout: AboutPage.route,
+          onPressMovies: HomeMoviePage.route,
+          onPressWatchlist: WatchlistPage.route,
+        ),
+      );
+    case WatchlistPage.route:
+      return MaterialPageRoute(builder: (_) => WatchlistPage());
+    case TvDetailPage.route:
       final id = settings.arguments as int;
       return MaterialPageRoute(builder: (_) => TvDetailPage(id: id));
-    case TvPopularsPage.ROUTE_NAME:
+    case TvPopularsPage.route:
       return MaterialPageRoute(builder: (_) => TvPopularsPage());
-    case TvTopRatedPage.ROUTE_NAME:
+    case TvTopRatedPage.route:
       return MaterialPageRoute(builder: (_) => TvTopRatedPage());
-    case TvSearchPage.ROUTE_NAME:
+    case TvSearchPage.route:
       return MaterialPageRoute(builder: (_) => TvSearchPage());
-    case TvOnTheAirPage.ROUTE_NAME:
+    case TvOnTheAirPage.route:
       return MaterialPageRoute(builder: (_) => TvOnTheAirPage());
     default:
       return MaterialPageRoute(

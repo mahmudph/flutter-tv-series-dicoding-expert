@@ -1,8 +1,8 @@
-import 'package:ditonton/common/constants.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 class AboutPage extends StatelessWidget {
-  static const ROUTE_NAME = '/about';
+  static const route = '/about';
 
   @override
   Widget build(BuildContext context) {

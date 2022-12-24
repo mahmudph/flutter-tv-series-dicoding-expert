@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'movie/watchlist_movies_page.dart';
-import 'tv/tv_watchlist_page.dart';
+import 'package:movie_feature/movie_feature.dart';
+import 'package:tv_feature/tv_feature.dart';
 
-class WhatchlistPage extends StatefulWidget with RouteAware {
+class WatchlistPage extends StatefulWidget with RouteAware {
   static const String route = 'watchlist';
-  const WhatchlistPage({Key? key}) : super(key: key);
+  const WatchlistPage({Key? key}) : super(key: key);
 
   @override
-  State<WhatchlistPage> createState() => _WhatchlistPageState();
+  State<WatchlistPage> createState() => _WatchlistPageState();
 }
 
-class _WhatchlistPageState extends State<WhatchlistPage> {
+class _WatchlistPageState extends State<WatchlistPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
