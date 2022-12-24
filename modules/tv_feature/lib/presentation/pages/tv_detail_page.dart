@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:core/widgets/information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tv_feature/domain/entitas/genre.dart';
@@ -52,7 +53,10 @@ class _TvDetailPageState extends State<TvDetailPage> {
               ),
             );
           } else if (state is TvDetailsFailure) {
-            return Text(state.message);
+            return Center(
+              key: const Key('error_message'),
+              child: InformationWidget(message: state.message),
+            );
           }
           return const SizedBox();
         },
@@ -118,13 +122,10 @@ class DetailContent extends StatelessWidget {
                               listener: (context, state) {
                                 if (state is TvWatchlistStatusData) {
                                   if (state.message.isNotEmpty) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          content: Text(state.message),
-                                        );
-                                      },
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(state.message),
+                                      ),
                                     );
                                   }
                                 }

@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:core/widgets/information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tv_feature/presentation/bloc/tv_search/tv_search_cubit.dart';
@@ -41,11 +42,23 @@ class TvSearchPage extends StatelessWidget {
             BlocBuilder<TvSearchCubit, TvSearchState>(
               builder: (context, state) {
                 if (state is TvSearchLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   );
                 } else if (state is TvSearchSuccess) {
                   final result = state.tv;
+
+                  if (result.isEmpty) {
+                    return const Expanded(
+                      child: InformationWidget(
+                        message:
+                            'Data Tv not found, plesae search with another query',
+                      ),
+                    );
+                  }
+
                   return Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8),
@@ -66,7 +79,7 @@ class TvSearchPage extends StatelessWidget {
                 } else if (state is TvSearchFailure) {
                   return Center(
                     key: const Key('error_message'),
-                    child: Text(state.message),
+                    child: InformationWidget(message: state.message),
                   );
                 } else {
                   return Expanded(

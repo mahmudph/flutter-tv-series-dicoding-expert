@@ -13,7 +13,7 @@ import 'tv_top_rated_page.dart';
 class TvHomePage extends StatefulWidget {
   static const String route = "tv/home";
 
-  final VoidCallback onPressWatchlist, onPressAbout, onPressMovies;
+  final String onPressWatchlist, onPressAbout, onPressMovies;
 
   const TvHomePage({
     super.key,
@@ -38,18 +38,20 @@ class _TvHomePageState extends State<TvHomePage> {
     });
   }
 
+  void navigate(BuildContext context, String routeName) => Navigator.pushNamed(
+        context,
+        routeName,
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
         child: DrawbableMenu(
-          onPressMovies: widget.onPressMovies,
-          onPressAbout: widget.onPressWatchlist,
-          onPressWatchlist: widget.onPressWatchlist,
-          onPressTvs: () => Navigator.pushNamed(
-            context,
-            TvHomePage.route,
-          ),
+          onPressMovies: () => navigate(context, widget.onPressMovies),
+          onPressAbout: () => navigate(context, widget.onPressWatchlist),
+          onPressWatchlist: () => navigate(context, widget.onPressWatchlist),
+          onPressTvs: () => navigate(context, TvHomePage.route),
         ),
       ),
       appBar: AppBar(
@@ -147,7 +149,10 @@ class _TvHomePageState extends State<TvHomePage> {
             child: Row(
               children: const [
                 Text('See More'),
-                Icon(Icons.arrow_forward_ios),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 22,
+                ),
               ],
             ),
           ),

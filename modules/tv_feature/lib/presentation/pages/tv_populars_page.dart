@@ -1,7 +1,7 @@
+import 'package:core/widgets/information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:tv_feature/presentation/bloc/tv_populars/tv_populars_cubit.dart';
 import 'package:tv_feature/presentation/widgets/tv_card_list.dart';
 import 'package:tv_feature/tv_feature.dart';
 
@@ -58,7 +58,7 @@ class _TvPopularsPageState extends State<TvPopularsPage> {
             } else if (state is TvPopularTvFailure) {
               return Center(
                 key: const Key('error_message'),
-                child: Text(state.message),
+                child: InformationWidget(message: state.message),
               );
             }
             return const SizedBox();

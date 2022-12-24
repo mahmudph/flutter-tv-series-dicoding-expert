@@ -1,6 +1,7 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:core/widgets/information_widget.dart';
 import 'package:tv_feature/presentation/bloc/tv_watchlist/tv_watchlist_cubit.dart';
 import 'package:tv_feature/presentation/widgets/tv_card_list.dart';
 
@@ -54,7 +55,11 @@ class _TvWatchlistPageState extends State<TvWatchlistPage> with RouteAware {
           } else if (state is TvWatchlistSuccess) {
             if (state.tv.isEmpty) {
               return const Center(
-                child: Text("Data watchlist tv not found"),
+                child: InformationWidget(
+                  title: "Data Not Found!",
+                  message:
+                      "Data Watchlist Tv not found. data wathlist Tv will be show hire when you add it",
+                ),
               );
             }
             return ListView.builder(
@@ -74,7 +79,7 @@ class _TvWatchlistPageState extends State<TvWatchlistPage> with RouteAware {
           } else if (state is TvWatchlistFailure) {
             return Center(
               key: const Key('error_message'),
-              child: Text(state.message),
+              child: InformationWidget(message: state.message),
             );
           }
           return const SizedBox();

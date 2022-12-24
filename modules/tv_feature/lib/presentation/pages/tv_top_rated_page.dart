@@ -1,7 +1,7 @@
+import 'package:core/widgets/information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tv_feature/presentation/widgets/tv_card_list.dart';
-import 'package:tv_feature/presentation/bloc/tv_top_rated/tv_top_rated_cubit.dart';
 import 'package:tv_feature/tv_feature.dart';
 
 class TvTopRatedPage extends StatefulWidget {
@@ -55,7 +55,7 @@ class _TvTopRatedPageState extends State<TvTopRatedPage> {
             } else if (state is TvTopRatedTvFailure) {
               return Center(
                 key: const Key('error_message'),
-                child: Text(state.message),
+                child: InformationWidget(message: state.message),
               );
             }
             return const SizedBox();

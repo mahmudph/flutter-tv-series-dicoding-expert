@@ -1,6 +1,6 @@
+import 'package:core/widgets/information_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tv_feature/presentation/bloc/tv_on_the_air/tv_on_the_air_cubit.dart';
 import 'package:tv_feature/presentation/widgets/tv_card_list.dart';
 import 'package:tv_feature/tv_feature.dart';
 
@@ -55,7 +55,7 @@ class _TvOnTheAirPageState extends State<TvOnTheAirPage> {
             } else if (state is TvOnTheAirFailure) {
               return Center(
                 key: const Key('error_message'),
-                child: Text(state.message),
+                child: InformationWidget(message: state.message),
               );
             }
             return const SizedBox();
