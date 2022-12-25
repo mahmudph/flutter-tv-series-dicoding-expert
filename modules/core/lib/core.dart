@@ -7,3 +7,6 @@ export 'db/database_helper.dart';
 export 'networks/http_interceptor.dart';
 export 'utils/security.dart';
 export 'utils/firebase_analytics_service.dart';
+export 'widgets/sub_heading_widget.dart';
+export 'widgets/information_widget.dart';
+export 'widgets/drawable_menu.dart';
