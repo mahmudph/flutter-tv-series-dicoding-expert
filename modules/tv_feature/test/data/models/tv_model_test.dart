@@ -21,9 +21,9 @@ void main() {
     originalName: 'originalName',
   );
 
-  final tV = Tv(
+  const tV = Tv(
     backdropPath: 'backdropPath',
-    genreIds: const [1, 2, 3],
+    genreIds: [1, 2, 3],
     id: 1,
     overview: 'overview',
     popularity: 1,
@@ -32,7 +32,7 @@ void main() {
     voteCount: 1,
     firstAirDate: "2022-08-19",
     name: 'name',
-    originCountry: const ['usa'],
+    originCountry: ['usa'],
     originalLanguage: 'en',
     originalName: 'originalName',
   );

@@ -12,13 +12,13 @@ final testMovieMap = {
   'title': 'title',
 };
 
-final testTv = Tv(
+const testTv = Tv(
   backdropPath: 'backdropPath',
   firstAirDate: "2021-05-23",
-  genreIds: const [1, 2, 3],
+  genreIds: [1, 2, 3],
   id: 1,
   name: 'name',
-  originCountry: const ['en'],
+  originCountry: ['en'],
   originalLanguage: 'originalLanguage',
   originalName: 'originalName',
   overview: 'overview',

@@ -46,9 +46,9 @@ void main() {
     originalName: 'joko',
   );
 
-  final tv = Tv(
+  const tv = Tv(
     backdropPath: '/muth4OYamXf41G2evdrLEg8d3om.jpg',
-    genreIds: const [14, 28],
+    genreIds: [14, 28],
     id: 557,
     overview:
         'After being bitten by a genetically altered spider, nerdy high school student Peter Parker is endowed with amazing powers to become the Amazing superhero known as Spider-Man.',
@@ -58,7 +58,7 @@ void main() {
     voteCount: 13507,
     firstAirDate: "2022-08-19",
     name: 'joko',
-    originCountry: const ['usa'],
+    originCountry: ['usa'],
     originalLanguage: 'en',
     originalName: 'joko',
   );

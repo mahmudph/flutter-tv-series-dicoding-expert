@@ -15,7 +15,7 @@ void main() {
     getRecomentations = GetTvRecommendations(mockTvRepository);
   });
 
-  final theId = 1;
+  const theId = 1;
 
   test(
     'should get data on recomendations tv show from the repository',
