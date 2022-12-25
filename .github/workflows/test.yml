@@ -29,4 +29,4 @@ jobs:
       - run: cd modules/tv_feature && flutter test && cd ../
 
       - run: "echo run flutter test in movie feature"
-      - run: cd modules/movie_feature && fltuter test
+      - run: cd modules/movie_feature && flutter test
