@@ -24,6 +24,10 @@ class DatabaseHelper {
     return _database;
   }
 
+  Future<void> mockDatabase(Database database) async {
+    _database = database;
+  }
+
   Future<Database> _initDb() async {
     final path = await getDatabasesPath();
     final databasePath = '$path/ditonton.db';
