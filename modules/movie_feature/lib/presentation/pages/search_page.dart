@@ -64,9 +64,7 @@ class SearchPage extends StatelessWidget {
                       child: Text(state.message),
                     );
                   } else {
-                    return Expanded(
-                      child: Container(),
-                    );
+                    return Container();
                   }
                 },
               ),

@@ -7,6 +7,8 @@ abstract class WatchlistMovieStatusState extends Equatable {
   List<Object> get props => [];
 }
 
+class WatchlistMovieStatusInitial extends WatchlistMovieStatusState {}
+
 class WatchlistMovieStatusData extends WatchlistMovieStatusState {
   final bool isAddToWatchlist;
   final String message;

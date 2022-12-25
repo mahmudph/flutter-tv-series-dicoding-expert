@@ -16,7 +16,7 @@ class WatchlistMovieStatusCubit extends Cubit<WatchlistMovieStatusState> {
     required this.getWatchListStatus,
     required this.saveWatchlist,
     required this.removeWatchlist,
-  }) : super(const WatchlistMovieStatusData());
+  }) : super(WatchlistMovieStatusInitial());
 
   Future<void> addWatchlist(MovieDetail movie) async {
     final result = await saveWatchlist.execute(movie);

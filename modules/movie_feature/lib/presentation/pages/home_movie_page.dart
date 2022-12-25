@@ -5,7 +5,6 @@ import 'package:movie_feature/presentation/bloc/now_playing_movie/now_playing_mo
 import 'package:movie_feature/presentation/bloc/popular_movie/popular_movie_cubit.dart';
 import 'package:movie_feature/presentation/bloc/top_rated_movie/top_rated_movies_cubit.dart';
 import 'package:movie_feature/presentation/widgets/movie_list.dart';
-import 'package:core/widgets/drawable_menu.dart';
 
 import 'search_page.dart';
 import 'popular_movies_page.dart';
@@ -106,9 +105,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   return const Text('Failed');
                 },
               ),
-              _buildSubHeading(
+              SubheadingWidget(
+                key: const Key('popular_movie_sub_heading'),
                 title: 'Popular',
-                onTap: () => Navigator.pushNamed(
+                onPress: () => Navigator.pushNamed(
                   context,
                   PopularMoviesPage.route,
                 ),
@@ -135,9 +135,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   return const Text('Failed');
                 },
               ),
-              _buildSubHeading(
+              SubheadingWidget(
+                key: const Key('top_rated_movie_sub_heading'),
                 title: 'Top Rated',
-                onTap: () => Navigator.pushNamed(
+                onPress: () => Navigator.pushNamed(
                   context,
                   TopRatedMoviesPage.route,
                 ),
@@ -168,33 +169,6 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
           ),
         ),
       ),
-    );
-  }
-
-  Row _buildSubHeading({required String title, required Function() onTap}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: kHeading6,
-        ),
-        InkWell(
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: const [
-                Text('See More'),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 22,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
