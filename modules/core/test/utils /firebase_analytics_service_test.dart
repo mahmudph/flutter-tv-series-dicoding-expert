@@ -20,7 +20,7 @@ void main() {
     'appAnalyticsObserver',
     () {
       final result = firebaseAnalyticService.appAnalyticsObserver();
-      expect(result.analytics, mockFirebaseAnalytics);
+      expect(result.analytics, isA<MockFirebaseAnalytics>());
     },
   );
 }
