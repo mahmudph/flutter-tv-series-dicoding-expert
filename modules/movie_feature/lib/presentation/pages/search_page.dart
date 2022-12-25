@@ -1,6 +1,5 @@
 import 'package:core/core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:core/widgets/information_widget.dart';
 import 'package:movie_feature/presentation/bloc/search_movie/search_movie_cubit.dart';
 import 'package:movie_feature/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';

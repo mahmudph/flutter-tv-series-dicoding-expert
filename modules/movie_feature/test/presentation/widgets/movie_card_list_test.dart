@@ -39,12 +39,12 @@ void main() {
   testWidgets(
     "Should display movie information with correct data or value",
     (tester) async {
-      await tester.pumpWidget(makeTestableWidget(MovieCard(testMovie)));
+      await tester.pumpWidget(makeTestableWidget(const MovieCard(testMovie)));
 
       var cardGestureRecognizer = find.byType(InkWell);
       var cachedImageTv = find.byType(CachedNetworkImage);
       var cachedImageTvValue = tester.widget<CachedNetworkImage>(cachedImageTv);
- 
+
       var inkwellData = tester.widget<InkWell>(cardGestureRecognizer);
       expect(inkwellData.onTap, isNotNull);
 
@@ -68,7 +68,7 @@ void main() {
   testWidgets(
     "Should navigate to the movie detail when inkwell button being press",
     (tester) async {
-      await tester.pumpWidget(makeTestableWidget(MovieCard(testMovie)));
+      await tester.pumpWidget(makeTestableWidget(const MovieCard(testMovie)));
 
       var cardGestureRecognizer = find.byType(InkWell);
 

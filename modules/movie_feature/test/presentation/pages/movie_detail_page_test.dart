@@ -28,12 +28,6 @@ void main() {
   });
 
   const theMovieId = 1;
-  final eventRouteDetail = MaterialPageRoute(
-    builder: (_) => MovieDetailPage(id: tMovie.id),
-    settings: RouteSettings(
-      arguments: tMovie.id,
-    ),
-  );
 
   Widget makeTestableWidget(Widget body) {
     return MultiBlocProvider(

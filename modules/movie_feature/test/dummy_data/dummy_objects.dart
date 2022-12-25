@@ -36,10 +36,10 @@ const tMovieModelJson = {
   "vote_count": 1,
 };
 
-final tMovie = Movie(
+const tMovie = Movie(
   adult: false,
   backdropPath: 'backdropPath',
-  genreIds: const [1, 2, 3],
+  genreIds: [1, 2, 3],
   id: 1,
   originalTitle: 'originalTitle',
   overview: 'overview',
@@ -52,10 +52,10 @@ final tMovie = Movie(
   voteCount: 1,
 );
 
-final testMovie = Movie(
+const testMovie = Movie(
   adult: false,
   backdropPath: '/muth4OYamXf41G2evdrLEg8d3om.jpg',
-  genreIds: const [14, 28],
+  genreIds: [14, 28],
   id: 557,
   originalTitle: 'Spider-Man',
   overview:

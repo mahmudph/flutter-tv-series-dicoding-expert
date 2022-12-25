@@ -4,12 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 class InformationWidget extends StatelessWidget {
   final String message, title, imageError, imageFromPackage;
   const InformationWidget({
-    super.key,
+    Key? key,
     this.title = "Something Wen't Wrong!",
     this.imageError = 'assets/page_not_found.png',
     this.imageFromPackage = 'core',
     required this.message,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
