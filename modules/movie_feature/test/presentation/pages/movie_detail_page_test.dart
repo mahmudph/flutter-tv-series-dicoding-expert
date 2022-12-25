@@ -28,6 +28,12 @@ void main() {
   });
 
   const theMovieId = 1;
+  final eventRouteDetail = MaterialPageRoute(
+    builder: (_) => MovieDetailPage(id: tMovie.id),
+    settings: RouteSettings(
+      arguments: tMovie.id,
+    ),
+  );
 
   Widget makeTestableWidget(Widget body) {
     return MultiBlocProvider(
@@ -142,8 +148,11 @@ void main() {
           );
 
           final movieDetailContent = find.byType(DetailContent);
-          await tester
-              .pumpWidget(makeTestableWidget(const MovieDetailPage(id: 1)));
+          await tester.pumpWidget(
+            makeTestableWidget(
+              const MovieDetailPage(id: 1),
+            ),
+          );
 
           expect(movieDetailContent, findsNothing);
           expect(find.text('failed to get data movie detail'), findsOneWidget);
@@ -306,6 +315,92 @@ void main() {
 
           expect(find.byIcon(Icons.check), findsOneWidget);
           expect(watchlistButton, findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should call method addWatchlist when click button add to the watchlist',
+        (WidgetTester tester) async {
+          /// stub
+          stubBlocProvider(
+            movieDetailState: const MovieDetailSuccess(
+              movieDetail: testMovieDetail,
+            ),
+            watchlistMovieState: const WatchlistMovieStatusData(
+              isAddToWatchlist: false,
+            ),
+            recommendationMoviesState: RecommendationMoviesSuccess(
+              movies: testMovieList,
+            ),
+          );
+
+          /// stub addWacthlist
+          when(() =>
+                  mockWatchlistMovieStatusCubit.addWatchlist(testMovieDetail))
+              .thenAnswer(
+            (_) async => {},
+          );
+
+          final watchlistButton = find.byType(ElevatedButton);
+
+          await tester.pumpWidget(
+            makeTestableWidget(
+              const MovieDetailPage(id: 1),
+            ),
+          );
+
+          expect(find.byIcon(Icons.add), findsOneWidget);
+          expect(watchlistButton, findsOneWidget);
+
+          await tester.tap(watchlistButton);
+          await tester.pump();
+
+          verify(
+            () => mockWatchlistMovieStatusCubit.addWatchlist(testMovieDetail),
+          ).called(1);
+        },
+      );
+
+      testWidgets(
+        'should call method removeFromwachlist when click button add to the watchlist',
+        (WidgetTester tester) async {
+          /// stub
+          stubBlocProvider(
+            movieDetailState: const MovieDetailSuccess(
+              movieDetail: testMovieDetail,
+            ),
+            watchlistMovieState: const WatchlistMovieStatusData(
+              isAddToWatchlist: true,
+            ),
+            recommendationMoviesState: RecommendationMoviesSuccess(
+              movies: testMovieList,
+            ),
+          );
+
+          /// stub remove from watchlist
+          when(() => mockWatchlistMovieStatusCubit
+              .removeFromWatchlist(testMovieDetail)).thenAnswer(
+            (_) async => {},
+          );
+
+          final watchlistButton = find.byType(ElevatedButton);
+
+          await tester.pumpWidget(
+            makeTestableWidget(
+              const MovieDetailPage(id: 1),
+            ),
+          );
+
+          expect(find.byIcon(Icons.check), findsOneWidget);
+          expect(watchlistButton, findsOneWidget);
+
+          await tester.tap(watchlistButton);
+          await tester.pump();
+
+          verify(
+            () => mockWatchlistMovieStatusCubit
+                .removeFromWatchlist(testMovieDetail),
+          ).called(1);
         },
       );
     },

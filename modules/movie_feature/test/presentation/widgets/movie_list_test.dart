@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:movie_feature/presentation/pages/movie_detail_page.dart';
-import 'package:movie_feature/presentation/widgets/movie_card_list.dart';
+import 'package:movie_feature/presentation/widgets/movie_list.dart';
 
 import '../../dummy_data/dummy_objects.dart';
 
@@ -37,45 +37,20 @@ void main() {
   }
 
   testWidgets(
-    "Should display movie information with correct data or value",
+    "Should navigate to the movie detail when button is clicked ",
     (tester) async {
-      await tester.pumpWidget(makeTestableWidget(MovieCard(testMovie)));
-
-      var cardGestureRecognizer = find.byType(InkWell);
-      var cachedImageTv = find.byType(CachedNetworkImage);
-      var cachedImageTvValue = tester.widget<CachedNetworkImage>(cachedImageTv);
- 
-      var inkwellData = tester.widget<InkWell>(cardGestureRecognizer);
-      expect(inkwellData.onTap, isNotNull);
-
-      expect(cardGestureRecognizer, findsOneWidget);
-      expect(find.text(testMovie.title!), findsOneWidget);
-      expect(find.text(testMovie.overview!), findsOneWidget);
-      expect(find.byType(ClipRRect), findsOneWidget);
-      expect(cachedImageTv, findsOneWidget);
-
-      expect(cachedImageTvValue.width, equals(80));
-
-      expect(
-        cachedImageTvValue.imageUrl,
-        equals(
-          '$baseUrlImage${testMovie.posterPath}',
+      /// pump
+      await tester.pumpWidget(
+        makeTestableWidget(
+          MovieList(
+            movies: testMovieList,
+          ),
         ),
       );
-    },
-  );
-
-  testWidgets(
-    "Should navigate to the movie detail when inkwell button being press",
-    (tester) async {
-      await tester.pumpWidget(makeTestableWidget(MovieCard(testMovie)));
 
       var cardGestureRecognizer = find.byType(InkWell);
 
-      expect(cardGestureRecognizer, findsOneWidget);
-
-      var inkwellData = tester.widget<InkWell>(cardGestureRecognizer);
-      expect(inkwellData.onTap, isNotNull);
+      expect(cardGestureRecognizer, findsWidgets);
 
       await tester.tap(cardGestureRecognizer);
       await tester.pumpAndSettle();

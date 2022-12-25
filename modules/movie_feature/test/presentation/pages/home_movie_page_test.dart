@@ -16,24 +16,33 @@ class MockPopularMovieCubit extends MockCubit<PopularMovieState>
 class MockNowPlayingMovieCubit extends MockCubit<NowPlayingMovieState>
     implements NowPlayingMovieCubit {}
 
+class MockNavigtionObserver extends Mock implements NavigatorObserver {}
+
+class FakeRoute extends Fake implements Route {}
+
 void main() {
   late MockTopRatedMovieCubit mockTopRatedMovieCubit;
   late MockPopularMovieCubit mockPopularMovieCubit;
   late MockNowPlayingMovieCubit mockNowPlayingMovieCubit;
+  late MockNavigtionObserver mockNavigtionObserver;
 
   setUp(() {
+    mockNavigtionObserver = MockNavigtionObserver();
     mockTopRatedMovieCubit = MockTopRatedMovieCubit();
     mockPopularMovieCubit = MockPopularMovieCubit();
     mockNowPlayingMovieCubit = MockNowPlayingMovieCubit();
+
+    registerFallbackValue(FakeRoute());
   });
 
-  tearDown(() {
-    mockTopRatedMovieCubit.close();
-    mockPopularMovieCubit.close();
-    mockNowPlayingMovieCubit.close();
-  });
+  final evenRoutePopularMovie = MaterialPageRoute(builder: (_) => Container());
+  final evenRouteTopRatedMovie = MaterialPageRoute(builder: (_) => Container());
+  final evenRouteSearchMovie = MaterialPageRoute(builder: (_) => Container());
 
-  Widget makeTestableWidget(Widget body) {
+  Widget makeTestableWidget(
+    Widget body,
+    MockNavigtionObserver navigationObserver,
+  ) {
     return MultiBlocProvider(
       providers: [
         BlocProvider<TopRatedMoviesCubit>.value(value: mockTopRatedMovieCubit),
@@ -43,6 +52,24 @@ void main() {
         ),
       ],
       child: MaterialApp(
+        navigatorObservers: [navigationObserver],
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case PopularMoviesPage.route:
+              return evenRoutePopularMovie;
+            case TopRatedMoviesPage.route:
+              return evenRouteTopRatedMovie;
+            case MovieDetailPage.route:
+              final id = settings.arguments as int;
+              return MaterialPageRoute(
+                builder: (_) => MovieDetailPage(id: id),
+                settings: settings,
+              );
+            case SearchPage.route:
+              return evenRouteSearchMovie;
+          }
+          return null;
+        },
         home: body,
       ),
     );
@@ -89,6 +116,7 @@ void main() {
             onPressTvs: 'onPressTvs',
             onPressWatchlist: 'onPressWatchlist',
           ),
+          mockNavigtionObserver,
         ),
       );
 
@@ -124,6 +152,7 @@ void main() {
             onPressTvs: 'onPressTvs',
             onPressWatchlist: 'onPressWatchlist',
           ),
+          mockNavigtionObserver,
         ),
       );
 
@@ -170,6 +199,7 @@ void main() {
             onPressTvs: 'onPressTvs',
             onPressWatchlist: 'onPressWatchlist',
           ),
+          mockNavigtionObserver,
         ),
       );
 
@@ -193,6 +223,148 @@ void main() {
 
       /// errors
       expect(find.text('failed to get data movie'), findsNWidgets(3));
+    },
+  );
+
+  testWidgets(
+    'should navigate to the list of popular movies list when button is being clicked',
+    (WidgetTester tester) async {
+      /// stub
+      ///
+      provideStubProvider(
+        popularMovieState: const PopularMovieFailure(
+          message: "failed to get data movie",
+        ),
+        topRatedMoviesState: const TopRatedMoviesFailure(
+          message: "failed to get data movie",
+        ),
+        nowPlayingMovieState: const NowPlayingMovieFailure(
+          message: "failed to get data movie",
+        ),
+      );
+
+      await tester.pumpWidget(
+        makeTestableWidget(
+          const HomeMoviePage(
+            onPressAbout: 'onPressAbout',
+            onPressTvs: 'onPressTvs',
+            onPressWatchlist: 'onPressWatchlist',
+          ),
+          mockNavigtionObserver,
+        ),
+      );
+
+      final popularMovieBtn = find.byKey(
+        const Key('popular_movie_sub_heading'),
+      );
+
+      expect(popularMovieBtn, findsOneWidget);
+
+      final inkWellBtn = find.descendant(
+        of: popularMovieBtn,
+        matching: find.byType(InkWell),
+      );
+
+      await tester.tap(inkWellBtn);
+      await tester.pumpAndSettle();
+
+      verify(
+        () => mockNavigtionObserver.didPush(evenRoutePopularMovie, any()),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
+    'should navigate to the list of top rated list when button is being clicked',
+    (WidgetTester tester) async {
+      /// stub
+      ///
+      provideStubProvider(
+        popularMovieState: const PopularMovieFailure(
+          message: "failed to get data movie",
+        ),
+        topRatedMoviesState: const TopRatedMoviesFailure(
+          message: "failed to get data movie",
+        ),
+        nowPlayingMovieState: const NowPlayingMovieFailure(
+          message: "failed to get data movie",
+        ),
+      );
+
+      await tester.pumpWidget(
+        makeTestableWidget(
+          const HomeMoviePage(
+            onPressAbout: 'onPressAbout',
+            onPressTvs: 'onPressTvs',
+            onPressWatchlist: 'onPressWatchlist',
+          ),
+          mockNavigtionObserver,
+        ),
+      );
+
+      final popularMovies = find.byKey(
+        const Key('top_rated_movie_sub_heading'),
+      );
+
+      expect(popularMovies, findsOneWidget);
+
+      final inkWellBtn = find.descendant(
+        of: popularMovies,
+        matching: find.byType(InkWell),
+      );
+
+      await tester.tap(inkWellBtn);
+      await tester.pumpAndSettle();
+
+      verify(
+        () => mockNavigtionObserver.didPush(evenRouteTopRatedMovie, any()),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
+    'should navigate to search movies',
+    (WidgetTester tester) async {
+      /// stub
+      ///
+      provideStubProvider(
+        popularMovieState: const PopularMovieFailure(
+          message: "failed to get data movie",
+        ),
+        topRatedMoviesState: const TopRatedMoviesFailure(
+          message: "failed to get data movie",
+        ),
+        nowPlayingMovieState: const NowPlayingMovieFailure(
+          message: "failed to get data movie",
+        ),
+      );
+
+      await tester.pumpWidget(
+        makeTestableWidget(
+          const HomeMoviePage(
+            onPressAbout: 'onPressAbout',
+            onPressTvs: 'onPressTvs',
+            onPressWatchlist: 'onPressWatchlist',
+          ),
+          mockNavigtionObserver,
+        ),
+      );
+
+      final appBar = find.byType(AppBar);
+
+      final searchButton = find.descendant(
+        of: appBar,
+        matching: find.byType(IconButton),
+      );
+
+      expect(searchButton, findsWidgets);
+
+      await tester.tap(searchButton.last);
+      await tester.pumpAndSettle();
+
+      verify(
+        () => mockNavigtionObserver.didPush(evenRouteSearchMovie, any()),
+      ).called(1);
     },
   );
 }

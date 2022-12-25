@@ -114,4 +114,24 @@ void main() {
       expect(find.text('search failure'), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'Should call cubit.searchMoviesByQuery(query) when user click search button',
+    (tester) async {
+      stubBlocProvider(
+        searchMovieState: SearchMovieInitial(),
+      );
+
+      await tester.pumpWidget(makeTestableWidget(const SearchPage()));
+
+      final textField = find.byType(TextField);
+      expect(textField, findsOneWidget);
+
+      await tester.enterText(textField, query);
+      await tester.testTextInput.receiveAction(TextInputAction.search);
+      await tester.pumpAndSettle();
+
+      verify(() => searchMovies.searchMoviesByQuery(query)).called(1);
+    },
+  );
 }
