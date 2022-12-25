@@ -1,7 +1,6 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:core/widgets/drawable_menu.dart';
 import 'package:tv_feature/presentation/bloc/bloc.dart';
 import 'package:tv_feature/presentation/widgets/tv_list.dart';
 
@@ -71,9 +70,13 @@ class _TvHomePageState extends State<TvHomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSubHeading(
+              SubheadingWidget(
+                key: const Key('on_the_air_tv'),
                 title: 'On The Air',
-                onTap: () => Navigator.pushNamed(context, TvOnTheAirPage.route),
+                onPress: () => Navigator.pushNamed(
+                  context,
+                  TvOnTheAirPage.route,
+                ),
               ),
               BlocBuilder<TvOnTheAirCubit, TvOnTheAirState>(
                 bloc: context.read<TvOnTheAirCubit>(),
@@ -90,9 +93,13 @@ class _TvHomePageState extends State<TvHomePage> {
                   return const Text("Failed");
                 },
               ),
-              _buildSubHeading(
+              SubheadingWidget(
+                key: const Key('popular_tv_list'),
                 title: 'Popular',
-                onTap: () => Navigator.pushNamed(context, TvPopularsPage.route),
+                onPress: () => Navigator.pushNamed(
+                  context,
+                  TvPopularsPage.route,
+                ),
               ),
               BlocBuilder<TvPopularsCubit, TvPopularsState>(
                 bloc: context.read<TvPopularsCubit>(),
@@ -108,9 +115,13 @@ class _TvHomePageState extends State<TvHomePage> {
                   }
                 },
               ),
-              _buildSubHeading(
+              SubheadingWidget(
+                key: const Key('top_rated_tv_list'),
                 title: 'Top Rated',
-                onTap: () => Navigator.pushNamed(context, TvTopRatedPage.route),
+                onPress: () => Navigator.pushNamed(
+                  context,
+                  TvTopRatedPage.route,
+                ),
               ),
               BlocBuilder<TvTopRatedCubit, TvTopRatedState>(
                 bloc: context.read<TvTopRatedCubit>(),
@@ -131,33 +142,6 @@ class _TvHomePageState extends State<TvHomePage> {
           ),
         ),
       ),
-    );
-  }
-
-  Row _buildSubHeading({required String title, required Function() onTap}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: kHeading6,
-        ),
-        InkWell(
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: const [
-                Text('See More'),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 22,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

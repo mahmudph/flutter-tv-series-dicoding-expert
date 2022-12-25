@@ -1,7 +1,6 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:core/widgets/information_widget.dart';
 import 'package:tv_feature/presentation/bloc/tv_watchlist/tv_watchlist_cubit.dart';
 import 'package:tv_feature/presentation/widgets/tv_card_list.dart';
 
