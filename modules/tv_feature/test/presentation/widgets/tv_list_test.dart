@@ -28,6 +28,7 @@ void main() {
           case TvDetailPage.route:
             return eventRoute;
         }
+        return null;
       },
       home: Scaffold(body: body),
     );
