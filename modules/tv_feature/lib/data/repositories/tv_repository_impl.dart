@@ -3,8 +3,10 @@ import 'package:dartz/dartz.dart';
 import 'package:core/commons/failure.dart';
 import 'package:core/commons/exception.dart';
 import 'package:tv_feature/data/models/tv_table.dart';
+import 'package:tv_feature/domain/entitas/episode.dart';
 import 'package:tv_feature/domain/entitas/tv.dart';
 import 'package:tv_feature/domain/entitas/tv_detail.dart';
+import 'package:tv_feature/domain/entitas/tv_session.dart';
 import 'package:tv_feature/domain/repositories/tv_repository.dart';
 import 'package:tv_feature/data/datasources/tv_local_data_source.dart';
 import 'package:tv_feature/data/datasources/tv_remote_data_source.dart';
@@ -129,6 +131,43 @@ class TvRepositoryImpl implements TvRepository {
     try {
       final result = await remoteDataSource.searchTvs(query);
       return Right(result.map((model) => model.toEntity()).toList());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure(noInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Episode>> getEpisodeBySession(
+    int tvId,
+    int tvSessionId,
+    int tvEpisodeId,
+  ) async {
+    try {
+      /// get the episode for the spesific sessions
+      final result = await remoteDataSource.getSessionEpisode(
+        tvId,
+        tvSessionId,
+        tvEpisodeId,
+      );
+
+      return Right(result.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on SocketException {
+      return Left(ConnectionFailure(noInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TvSession>> getTvSession(
+    int tvId,
+    int tvSessionId,
+  ) async {
+    try {
+      final result = await remoteDataSource.getTvSession(tvId, tvSessionId);
+      return Right(result.toEntity());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     } on SocketException {
