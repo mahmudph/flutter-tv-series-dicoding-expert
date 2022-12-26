@@ -161,6 +161,7 @@ const episode = Episode(
   seasonNumber: 1,
   voteAverage: 1.0,
   voteCount: 1,
+  stillPath: "/wrGWeW4WKxnaeA8sxJb2T9O6ryo.jpg",
 );
 
 const episodeModel = EpisodeModel(
@@ -173,6 +174,7 @@ const episodeModel = EpisodeModel(
   seasonNumber: 1,
   voteAverage: 1.0,
   voteCount: 1,
+  stillPath: "/wrGWeW4WKxnaeA8sxJb2T9O6ryo.jpg",
 );
 
 const tvSessionEpisodeModel = EpisodeModel(
@@ -185,24 +187,25 @@ const tvSessionEpisodeModel = EpisodeModel(
   seasonNumber: 1,
   voteAverage: 1.0,
   voteCount: 1,
+  stillPath: "/wrGWeW4WKxnaeA8sxJb2T9O6ryo.jpg",
 );
 
 final tvSessionResponse = TvSessionResponse(
-  id: '1',
+  id: 1,
   episodes: [tvSessionEpisodeModel],
   airDate: '2022-10-12',
   name: 'name',
   overview: 'overview',
-  tvSessionResponseId: 1,
   seasonNumber: 12,
+  posterPath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
 );
 
 const tvSession = TvSession(
-  id: '1',
+  id: 1,
   episodes: [episode],
   airDate: '2022-10-12',
   name: 'name',
   overview: 'overview',
-  tvSessionResponseId: 1,
   seasonNumber: 12,
+  posterPath: "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
 );

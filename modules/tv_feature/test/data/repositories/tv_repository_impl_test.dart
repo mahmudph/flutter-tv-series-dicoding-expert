@@ -623,7 +623,7 @@ void main() {
             ),
           ).called(1);
 
-          expect(result, const Right(tvSession));
+          expect(result, const Right(episode));
         },
       );
 
