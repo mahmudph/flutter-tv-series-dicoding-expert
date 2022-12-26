@@ -11,17 +11,34 @@ import '../../dummy_data/dummy_objects.dart';
 class MockWatchlistCubit extends MockCubit<TvWatchlistState>
     implements TvWatchlistCubit {}
 
+class MockNavigtionObserver extends Mock implements NavigatorObserver {}
+
+class FakeRoute extends Fake implements Route {}
+
 void main() {
   late MockWatchlistCubit mockWatchlistCubit;
+  late MockNavigtionObserver mockNavigtionObserver;
 
   setUp(() {
+    registerFallbackValue(FakeRoute());
     mockWatchlistCubit = MockWatchlistCubit();
+    mockNavigtionObserver = MockNavigtionObserver();
   });
+
+  final eventRoute = MaterialPageRoute(builder: (_) => Container());
 
   Widget makeTestableWidget(Widget body) {
     return BlocProvider<TvWatchlistCubit>.value(
       value: mockWatchlistCubit,
       child: MaterialApp(
+        navigatorObservers: [mockNavigtionObserver],
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case TvDetailPage.route:
+              return eventRoute;
+          }
+          throw Exception('');
+        },
         home: body,
       ),
     );

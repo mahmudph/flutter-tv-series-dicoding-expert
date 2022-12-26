@@ -166,4 +166,77 @@ void main() {
       expect(find.byKey(const Key('tv_recommendation_list')), findsOneWidget);
     },
   );
+
+  testWidgets(
+    'When button is being click then it should invoke method addWatchlist when tv is not exist in watchlist',
+    (WidgetTester tester) async {
+      /// stub for initial state
+      mockFetchInitialData();
+
+      when(() => tvWatchlistStatusCubit.addWatchlist(testTvDetail)).thenAnswer(
+        (_) async => {},
+      );
+
+      when(() => tvDetailCubit.state).thenReturn(
+        TvDetailsSuccess(tvDetail: testTvDetail),
+      );
+
+      when(() => tvRecommendationCubit.state).thenReturn(
+        TvRecommendationSuccess(listRecomendationsTv: testTvList),
+      );
+
+      when(() => tvWatchlistStatusCubit.state).thenReturn(
+        const TvWatchlistStatusData(),
+      );
+
+      await tester.pumpWidget(makeTestableWidget(const TvDetailPage(id: 1)));
+
+      final elevatedBtn = find.byType(ElevatedButton);
+      expect(elevatedBtn, findsOneWidget);
+
+      await tester.tap(elevatedBtn);
+      await tester.pump();
+
+      verify(
+        () => tvWatchlistStatusCubit.addWatchlist(testTvDetail),
+      ).called(1);
+    },
+  );
+
+  testWidgets(
+    'When button is being click then it should invoke method removeFromWatchlist when exist',
+    (WidgetTester tester) async {
+      /// stub for initial state
+      mockFetchInitialData();
+
+      when(() => tvWatchlistStatusCubit.removeFromWatchlist(testTvDetail))
+          .thenAnswer(
+        (_) async => {},
+      );
+
+      when(() => tvDetailCubit.state).thenReturn(
+        TvDetailsSuccess(tvDetail: testTvDetail),
+      );
+
+      when(() => tvRecommendationCubit.state).thenReturn(
+        TvRecommendationSuccess(listRecomendationsTv: testTvList),
+      );
+
+      when(() => tvWatchlistStatusCubit.state).thenReturn(
+        const TvWatchlistStatusData(isAddedWatchlist: true),
+      );
+
+      await tester.pumpWidget(makeTestableWidget(const TvDetailPage(id: 1)));
+
+      final elevatedBtn = find.byType(ElevatedButton);
+      expect(elevatedBtn, findsOneWidget);
+
+      await tester.tap(elevatedBtn);
+      await tester.pump();
+
+      verify(
+        () => tvWatchlistStatusCubit.removeFromWatchlist(testTvDetail),
+      ).called(1);
+    },
+  );
 }

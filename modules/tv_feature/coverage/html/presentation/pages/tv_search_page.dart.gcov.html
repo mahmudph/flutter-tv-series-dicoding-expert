@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">26</td>
             <td class="headerCovTableEntry">31</td>
-            <td class="headerCovTableEntryMed">83.9 %</td>
+            <td class="headerCovTableEntry">31</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-12-26 10:48:31</td>
+            <td class="headerValue">2022-12-26 16:10:37</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -87,7 +87,7 @@
 <a name="25"><span class="lineNum">      25 </span>            :           crossAxisAlignment: CrossAxisAlignment.start,</a>
 <a name="26"><span class="lineNum">      26 </span><span class="lineCov">          1 :           children: [</span></a>
 <a name="27"><span class="lineNum">      27 </span><span class="lineCov">          1 :             TextField(</span></a>
-<a name="28"><span class="lineNum">      28 </span><span class="lineNoCov">          0 :               onSubmitted: (query) =&gt; bloc.searchTvByQuery(query),</span></a>
+<a name="28"><span class="lineNum">      28 </span><span class="lineCov">          2 :               onSubmitted: (query) =&gt; bloc.searchTvByQuery(query),</span></a>
 <a name="29"><span class="lineNum">      29 </span>            :               decoration: const InputDecoration(</a>
 <a name="30"><span class="lineNum">      30 </span>            :                 hintText: 'Search title',</a>
 <a name="31"><span class="lineNum">      31 </span>            :                 prefixIcon: Icon(Icons.search),</a>
@@ -126,10 +126,10 @@
 <a name="64"><span class="lineNum">      64 </span><span class="lineCov">          1 :                       itemBuilder: (context, index) {</span></a>
 <a name="65"><span class="lineNum">      65 </span><span class="lineCov">          1 :                         final tv = result[index];</span></a>
 <a name="66"><span class="lineNum">      66 </span><span class="lineCov">          1 :                         return TvCard(</span></a>
-<a name="67"><span class="lineNum">      67 </span><span class="lineNoCov">          0 :                           onPress: () =&gt; Navigator.pushNamed(</span></a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">          2 :                           onPress: () =&gt; Navigator.pushNamed(</span></a>
 <a name="68"><span class="lineNum">      68 </span>            :                             context,</a>
 <a name="69"><span class="lineNum">      69 </span>            :                             TvDetailPage.route,</a>
-<a name="70"><span class="lineNum">      70 </span><span class="lineNoCov">          0 :                             arguments: tv.id,</span></a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">          1 :                             arguments: tv.id,</span></a>
 <a name="71"><span class="lineNum">      71 </span>            :                           ),</a>
 <a name="72"><span class="lineNum">      72 </span>            :                           tv: tv,</a>
 <a name="73"><span class="lineNum">      73 </span>            :                         );</a>
@@ -143,8 +143,8 @@
 <a name="81"><span class="lineNum">      81 </span><span class="lineCov">          2 :                     child: InformationWidget(message: state.message),</span></a>
 <a name="82"><span class="lineNum">      82 </span>            :                   );</a>
 <a name="83"><span class="lineNum">      83 </span>            :                 } else {</a>
-<a name="84"><span class="lineNum">      84 </span><span class="lineNoCov">          0 :                   return Expanded(</span></a>
-<a name="85"><span class="lineNum">      85 </span><span class="lineNoCov">          0 :                     child: Container(),</span></a>
+<a name="84"><span class="lineNum">      84 </span><span class="lineCov">          1 :                   return Expanded(</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineCov">          1 :                     child: Container(),</span></a>
 <a name="86"><span class="lineNum">      86 </span>            :                   );</a>
 <a name="87"><span class="lineNum">      87 </span>            :                 }</a>
 <a name="88"><span class="lineNum">      88 </span>            :               },</a>

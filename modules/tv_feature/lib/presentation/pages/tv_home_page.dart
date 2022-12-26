@@ -83,10 +83,14 @@ class _TvHomePageState extends State<TvHomePage> {
                 builder: (context, state) {
                   if (state is TvOnTheAirLoading) {
                     return const Center(
+                      key: Key('on_the_air_tv_loading'),
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is TvOnTheAirSuccess) {
-                    return TvList(state.listOnTheAirTv);
+                    return TvList(
+                      key: const Key('on_the_air_tv_list'),
+                      tvs: state.listOnTheAirTv,
+                    );
                   } else if (state is TvOnTheAirFailure) {
                     return Text(state.message);
                   }
@@ -94,7 +98,7 @@ class _TvHomePageState extends State<TvHomePage> {
                 },
               ),
               SubheadingWidget(
-                key: const Key('popular_tv_list'),
+                key: const Key('populars_tv'),
                 title: 'Popular',
                 onPress: () => Navigator.pushNamed(
                   context,
@@ -106,17 +110,23 @@ class _TvHomePageState extends State<TvHomePage> {
                 builder: (context, state) {
                   if (state is TvPopularTvLoading) {
                     return const Center(
+                      key: Key('popular_tv_loading'),
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is TvPopularTvSuccess) {
-                    return TvList(state.listPopularTvTv);
+                    return TvList(
+                      key: const Key('populars_tv_list'),
+                      tvs: state.listPopularTvTv,
+                    );
+                  } else if (state is TvPopularTvFailure) {
+                    return Text(state.message);
                   } else {
                     return const Text('Failed');
                   }
                 },
               ),
               SubheadingWidget(
-                key: const Key('top_rated_tv_list'),
+                key: const Key('top_rated_tv'),
                 title: 'Top Rated',
                 onPress: () => Navigator.pushNamed(
                   context,
@@ -128,10 +138,14 @@ class _TvHomePageState extends State<TvHomePage> {
                 builder: (context, state) {
                   if (state is TvTopRatedTvLoading) {
                     return const Center(
+                      key: Key('top_rated_tv_loading'),
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is TvTopRatedTvSuccess) {
-                    return TvList(state.listTopRatedTv);
+                    return TvList(
+                      key: const Key('top_rated_tv_list'),
+                      tvs: state.listTopRatedTv,
+                    );
                   } else if (state is TvTopRatedTvFailure) {
                     return Text(state.message);
                   }
