@@ -31,8 +31,6 @@ class EpisodeModel extends Equatable {
   factory EpisodeModel.fromJson(String str) =>
       EpisodeModel.fromMap(json.decode(str));
 
-  String toJson() => json.encode(toMap());
-
   factory EpisodeModel.fromMap(Map<String, dynamic> json) => EpisodeModel(
         airDate: json["air_date"],
         episodeNumber: json["episode_number"],
@@ -70,6 +68,7 @@ class EpisodeModel extends Equatable {
       seasonNumber: seasonNumber,
       voteAverage: voteAverage,
       voteCount: voteCount,
+      stillPath: stillPath,
     );
   }
 
