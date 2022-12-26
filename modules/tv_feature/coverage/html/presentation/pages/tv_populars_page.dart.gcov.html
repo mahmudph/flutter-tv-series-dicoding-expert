@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2022-12-19 09:14:21</td>
+            <td class="headerValue">2022-12-26 10:48:31</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -60,10 +60,10 @@
       <td>
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>            : import 'package:flutter/material.dart';</a>
-<a name="2"><span class="lineNum">       2 </span>            : import 'package:flutter_bloc/flutter_bloc.dart';</a>
-<a name="3"><span class="lineNum">       3 </span>            : import 'package:provider/provider.dart';</a>
-<a name="4"><span class="lineNum">       4 </span>            : import 'package:tv_feature/presentation/bloc/tv_populars/tv_populars_cubit.dart';</a>
+<a name="1"><span class="lineNum">       1 </span>            : import 'package:core/widgets/information_widget.dart';</a>
+<a name="2"><span class="lineNum">       2 </span>            : import 'package:flutter/material.dart';</a>
+<a name="3"><span class="lineNum">       3 </span>            : import 'package:flutter_bloc/flutter_bloc.dart';</a>
+<a name="4"><span class="lineNum">       4 </span>            : import 'package:provider/provider.dart';</a>
 <a name="5"><span class="lineNum">       5 </span>            : import 'package:tv_feature/presentation/widgets/tv_card_list.dart';</a>
 <a name="6"><span class="lineNum">       6 </span>            : import 'package:tv_feature/tv_feature.dart';</a>
 <a name="7"><span class="lineNum">       7 </span>            : </a>
@@ -120,7 +120,7 @@
 <a name="58"><span class="lineNum">      58 </span><span class="lineCov">          1 :             } else if (state is TvPopularTvFailure) {</span></a>
 <a name="59"><span class="lineNum">      59 </span><span class="lineCov">          1 :               return Center(</span></a>
 <a name="60"><span class="lineNum">      60 </span>            :                 key: const Key('error_message'),</a>
-<a name="61"><span class="lineNum">      61 </span><span class="lineCov">          2 :                 child: Text(state.message),</span></a>
+<a name="61"><span class="lineNum">      61 </span><span class="lineCov">          2 :                 child: InformationWidget(message: state.message),</span></a>
 <a name="62"><span class="lineNum">      62 </span>            :               );</a>
 <a name="63"><span class="lineNum">      63 </span>            :             }</a>
 <a name="64"><span class="lineNum">      64 </span>            :             return const SizedBox();</a>
