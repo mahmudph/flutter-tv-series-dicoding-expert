@@ -527,11 +527,12 @@ void main() {
     });
 
     test(
-      'should return list of tv should throw DatabaseException',
+      'should throw DatabaseException when get getWatchlistTvs',
       () async {
         // arrange
-        when(() => mockLocalDataSource.getWatchlistTvs())
-            .thenThrow(DatabaseException(''));
+        when(() => mockLocalDataSource.getWatchlistTvs()).thenThrow(
+          DatabaseException(''),
+        );
         // act
         final result = await repository.getWatchlistTvs();
         verify(() => mockLocalDataSource.getWatchlistTvs()).called(1);
@@ -539,4 +540,128 @@ void main() {
       },
     );
   });
+
+  group('get tv sessions', () {
+    const tvId = 10;
+    const tvSessionId = 1;
+
+    test(
+      'should throw DatabaseException when get',
+      () async {
+        // arrange
+        when(
+          () => mockRemoteDataSource.getTvSession(tvId, tvSessionId),
+        ).thenThrow(ServerException());
+
+        // act
+        final result = await repository.getTvSession(tvId, tvSessionId);
+
+        verify(
+          () => mockRemoteDataSource.getTvSession(tvId, tvSessionId),
+        ).called(1);
+
+        expect(
+          result,
+          const Left(
+            ServerFailure('No internet connection available'),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should get tv sessions with success',
+      () async {
+        // arrange
+        when(
+          () => mockRemoteDataSource.getTvSession(tvId, tvSessionId),
+        ).thenAnswer((_) async => tvSessionResponse);
+
+        // act
+        final result = await repository.getTvSession(tvId, tvSessionId);
+
+        verify(
+          () => mockRemoteDataSource.getTvSession(tvId, tvSessionId),
+        ).called(1);
+
+        expect(result, const Right(tvSession));
+      },
+    );
+  });
+
+  group(
+    'get tv session episode',
+    () {
+      const tvId = 10;
+      const tvSessionId = 1;
+      const tvSessionEpisodeId = 2;
+
+      test(
+        'should get tv sessions episode with success',
+        () async {
+          // arrange
+          when(
+            () => mockRemoteDataSource.getSessionEpisode(
+              tvId,
+              tvSessionId,
+              tvSessionEpisodeId,
+            ),
+          ).thenAnswer((_) async => episodeModel);
+
+          // act
+          final result = await repository.getEpisodeBySession(
+            tvId,
+            tvSessionId,
+            tvSessionEpisodeId,
+          );
+
+          verify(
+            () => mockRemoteDataSource.getSessionEpisode(
+              tvId,
+              tvSessionId,
+              tvSessionEpisodeId,
+            ),
+          ).called(1);
+
+          expect(result, const Right(tvSession));
+        },
+      );
+
+      test(
+        'should get tv sessions episode with failure and throw ServerException',
+        () async {
+          // arrange
+          when(
+            () => mockRemoteDataSource.getSessionEpisode(
+              tvId,
+              tvSessionId,
+              tvSessionEpisodeId,
+            ),
+          ).thenThrow(ServerException());
+
+          // act
+          final result = await repository.getEpisodeBySession(
+            tvId,
+            tvSessionId,
+            tvSessionEpisodeId,
+          );
+
+          verify(
+            () => mockRemoteDataSource.getSessionEpisode(
+              tvId,
+              tvSessionId,
+              tvSessionEpisodeId,
+            ),
+          ).called(1);
+
+          expect(
+            result,
+            const Left(
+              ServerFailure('No internet connection available'),
+            ),
+          );
+        },
+      );
+    },
+  );
 }

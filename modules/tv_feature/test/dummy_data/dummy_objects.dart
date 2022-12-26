@@ -1,9 +1,13 @@
 import 'package:tv_feature/data/models/genre_model.dart';
 import 'package:tv_feature/data/models/last_to_air_model.dart';
 import 'package:tv_feature/data/models/session_model.dart';
+import 'package:tv_feature/data/models/tv_episode.dart';
+import 'package:tv_feature/data/models/tv_session_response.dart';
 import 'package:tv_feature/data/models/tv_table.dart';
+import 'package:tv_feature/domain/entitas/episode.dart';
 import 'package:tv_feature/domain/entitas/tv.dart';
 import 'package:tv_feature/domain/entitas/tv_detail.dart';
+import 'package:tv_feature/domain/entitas/tv_session.dart';
 
 final testMovieMap = {
   'id': 1,
@@ -145,4 +149,60 @@ final testLastToAirModel = LastEpisodeToAirModel(
   stillPath: "stillPath",
   voteAverage: 10.0,
   voteCount: 1,
+);
+
+const episode = Episode(
+  id: 1,
+  episodeNumber: 1,
+  airDate: '2022-10-12',
+  name: 'name',
+  overview: 'overview',
+  productionCode: 'productionCode',
+  seasonNumber: 1,
+  voteAverage: 1.0,
+  voteCount: 1,
+);
+
+const episodeModel = EpisodeModel(
+  id: 1,
+  episodeNumber: 1,
+  airDate: '2022-10-12',
+  name: 'name',
+  overview: 'overview',
+  productionCode: 'productionCode',
+  seasonNumber: 1,
+  voteAverage: 1.0,
+  voteCount: 1,
+);
+
+const tvSessionEpisodeModel = EpisodeModel(
+  id: 1,
+  episodeNumber: 1,
+  airDate: '2022-10-12',
+  name: 'name',
+  overview: 'overview',
+  productionCode: 'productionCode',
+  seasonNumber: 1,
+  voteAverage: 1.0,
+  voteCount: 1,
+);
+
+final tvSessionResponse = TvSessionResponse(
+  id: '1',
+  episodes: [tvSessionEpisodeModel],
+  airDate: '2022-10-12',
+  name: 'name',
+  overview: 'overview',
+  tvSessionResponseId: 1,
+  seasonNumber: 12,
+);
+
+const tvSession = TvSession(
+  id: '1',
+  episodes: [episode],
+  airDate: '2022-10-12',
+  name: 'name',
+  overview: 'overview',
+  tvSessionResponseId: 1,
+  seasonNumber: 12,
 );

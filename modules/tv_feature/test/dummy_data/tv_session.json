@@ -1,0 +1,23 @@
+{
+  "air_date": "2022-10-12",
+  "episodes": [
+    {
+      "air_date": "2022-10-12",
+      "name": "name",
+      "overview": "overview",
+      "id": 1,
+      "production_code": "productionCode",
+      "season_number": 1,
+      "still_path": "/wrGWeW4WKxnaeA8sxJb2T9O6ryo.jpg",
+      "vote_average": 1.0,
+      "vote_count": 1,
+      "episode_number": 1
+    }
+  ],
+  "name": "name",
+  "overview": "overview",
+  "_id": "1",
+  "id": 1,
+  "poster_path": "/zwaj4egrhnXOBIit1tyb4Sbt3KP.jpg",
+  "season_number": 12
+}
