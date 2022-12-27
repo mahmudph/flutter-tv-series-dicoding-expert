@@ -87,6 +87,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<WatchlistMovieStatusCubit>.value(
           value: di.locator<WatchlistMovieStatusCubit>(),
         ),
+        BlocProvider<TvSessionCubit>.value(
+          value: di.locator<TvSessionCubit>(),
+        ),
+        BlocProvider<TvSessionEpisodeCubit>.value(
+          value: di.locator<TvSessionEpisodeCubit>(),
+        )
       ],
       child: MaterialApp(
         navigatorObservers: [

@@ -50,6 +50,28 @@ Route<dynamic>? generateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => TvSearchPage());
     case TvOnTheAirPage.route:
       return MaterialPageRoute(builder: (_) => TvOnTheAirPage());
+    case TvSessionPage.route:
+      final pageArguments = settings.arguments as Map<String, dynamic>;
+      final tvId = pageArguments['tvId'] as int;
+      final tvSessionId = pageArguments['tvSessionId'] as int;
+      return MaterialPageRoute(
+        builder: (_) => TvSessionPage(
+          tvId: tvId,
+          tvSessionId: tvSessionId,
+        ),
+      );
+    case TvSesionEpisodePage.route:
+      final pageArguments = settings.arguments as Map<String, dynamic>;
+      final tvId = pageArguments['tvId'] as int;
+      final tvSessionId = pageArguments['tvSessionId'] as int;
+      final tvSessionEpisodeId = pageArguments['tvSessionEpisodeId'] as int;
+      return MaterialPageRoute(
+        builder: (_) => TvSesionEpisodePage(
+          tvId: tvId,
+          tvSessionId: tvSessionId,
+          tvSessionEpisodeId: tvSessionEpisodeId,
+        ),
+      );
     default:
       return MaterialPageRoute(
         builder: (_) {
