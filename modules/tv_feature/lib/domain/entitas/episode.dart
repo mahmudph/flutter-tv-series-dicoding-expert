@@ -14,7 +14,7 @@ class Episode extends Equatable {
     this.stillPath,
   });
 
-  final String airDate;
+  final String? airDate;
   final int episodeNumber;
   final int id;
   final String name;

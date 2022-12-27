@@ -4,7 +4,7 @@ import 'episode.dart';
 
 class TvSession extends Equatable {
   final int id;
-  final String airDate;
+  final String? airDate;
   final List<Episode> episodes;
   final String name;
   final String overview;

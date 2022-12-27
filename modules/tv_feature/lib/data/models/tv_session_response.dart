@@ -14,7 +14,7 @@ class TvSessionResponse {
   });
 
   final int id;
-  final String airDate;
+  final String? airDate;
   final List<EpisodeModel> episodes;
   final String name;
   final String overview;
