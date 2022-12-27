@@ -6,7 +6,7 @@ import 'package:tv_feature/domain/repositories/tv_repository.dart';
 class GetTvSessionEpisode {
   final TvRepository tvRepository;
 
-  GetTvSessionEpisode({required this.tvRepository});
+  GetTvSessionEpisode(this.tvRepository);
 
   Future<Either<Failure, Episode>> execute(
     int tvId,

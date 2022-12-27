@@ -13,7 +13,7 @@ void main() {
 
   setUp(() {
     tvRepository = MockTvRepository();
-    getTvSession = GetTvSession(tvRepository: tvRepository);
+    getTvSession = GetTvSession(tvRepository);
   });
 
   const tvId = 1;
