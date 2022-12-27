@@ -52,7 +52,7 @@ class _TvHomePageState extends State<TvHomePage> {
       drawer: Drawer(
         child: DrawbableMenu(
           onPressMovies: () => navigate(context, widget.onPressMovies),
-          onPressAbout: () => navigate(context, widget.onPressWatchlist),
+          onPressAbout: () => navigate(context, widget.onPressAbout),
           onPressWatchlist: () => navigate(context, widget.onPressWatchlist),
           onPressTvs: () => navigate(context, TvHomePage.route),
         ),
