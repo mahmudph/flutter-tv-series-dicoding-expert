@@ -58,7 +58,7 @@ class _TvHomePageState extends State<TvHomePage> {
         ),
       ),
       appBar: AppBar(
-        title: const Text('Ditonton'),
+        title: const Text('Ditonton Aja'),
         actions: [
           IconButton(
             onPressed: () {

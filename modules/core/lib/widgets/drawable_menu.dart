@@ -1,3 +1,4 @@
+import 'package:core/commons/constants.dart';
 import 'package:flutter/material.dart';
 
 class DrawbableMenu extends StatelessWidget {
@@ -17,11 +18,14 @@ class DrawbableMenu extends StatelessWidget {
     return Column(
       children: [
         const UserAccountsDrawerHeader(
+          decoration: BoxDecoration(
+            color: kPrussianBlue,
+          ),
           currentAccountPicture: CircleAvatar(
             backgroundImage: AssetImage('assets/circle-g.png'),
           ),
-          accountName: Text('Ditonton'),
-          accountEmail: Text('ditonton@dicoding.com'),
+          accountName: Text('Ditonton Aja'),
+          accountEmail: Text('mahmud120398@gmail.com'),
         ),
         ListTile(
           leading: const Icon(Icons.movie),

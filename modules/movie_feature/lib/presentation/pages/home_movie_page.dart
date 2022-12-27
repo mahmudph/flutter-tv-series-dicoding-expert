@@ -29,6 +29,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   @override
   void initState() {
     super.initState();
+    handleOnLoadMovieData();
+  }
+
+  void handleOnLoadMovieData() {
     Future.microtask(() {
       BlocProvider.of<NowPlayingMovieCubit>(context, listen: false)
           .fetchNowPlayingMovie();
@@ -65,7 +69,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
         ),
       ),
       appBar: AppBar(
-        title: const Text('Ditonton'),
+        title: const Text('Ditonton Aja'),
         actions: [
           IconButton(
             onPressed: () => Navigator.pushNamed(context, SearchPage.route),
@@ -75,97 +79,100 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Now Playing',
-                style: kHeading6,
-              ),
-              BlocBuilder<NowPlayingMovieCubit, NowPlayingMovieState>(
-                bloc: context.read<NowPlayingMovieCubit>(),
-                builder: (context, state) {
-                  if (state is NowPlayingMovieLoading) {
-                    return const Center(
-                      key: Key('now_playing_movie_loading'),
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is NowPlayingMovieSucess) {
-                    return MovieList(
-                      key: const Key('now_playing_movie_list'),
-                      movies: state.movies,
-                    );
-                  } else if (state is NowPlayingMovieFailure) {
-                    return Text(
-                      key: const Key('now_playing_movie_error'),
-                      state.message,
-                    );
-                  }
-                  return const Text('Failed');
-                },
-              ),
-              SubheadingWidget(
-                key: const Key('popular_movie_sub_heading'),
-                title: 'Popular',
-                onPress: () => Navigator.pushNamed(
-                  context,
-                  PopularMoviesPage.route,
+        child: RefreshIndicator(
+          onRefresh: () async => handleOnLoadMovieData(),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Now Playing',
+                  style: kHeading6,
                 ),
-              ),
-              BlocBuilder<PopularMovieCubit, PopularMovieState>(
-                bloc: context.read<PopularMovieCubit>(),
-                builder: (context, state) {
-                  if (state is PopularMovieLoading) {
-                    return const Center(
-                      key: Key('popular_movie_loading'),
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is PopularMovieSucess) {
-                    return MovieList(
-                      key: const Key('popular_movie_list'),
-                      movies: state.movies,
-                    );
-                  } else if (state is PopularMovieFailure) {
-                    return Text(
-                      key: const Key('popular_movie_error'),
-                      state.message,
-                    );
-                  }
-                  return const Text('Failed');
-                },
-              ),
-              SubheadingWidget(
-                key: const Key('top_rated_movie_sub_heading'),
-                title: 'Top Rated',
-                onPress: () => Navigator.pushNamed(
-                  context,
-                  TopRatedMoviesPage.route,
+                BlocBuilder<NowPlayingMovieCubit, NowPlayingMovieState>(
+                  bloc: context.read<NowPlayingMovieCubit>(),
+                  builder: (context, state) {
+                    if (state is NowPlayingMovieLoading) {
+                      return const Center(
+                        key: Key('now_playing_movie_loading'),
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is NowPlayingMovieSucess) {
+                      return MovieList(
+                        key: const Key('now_playing_movie_list'),
+                        movies: state.movies,
+                      );
+                    } else if (state is NowPlayingMovieFailure) {
+                      return Text(
+                        key: const Key('now_playing_movie_error'),
+                        state.message,
+                      );
+                    }
+                    return const Text('Failed');
+                  },
                 ),
-              ),
-              BlocBuilder<TopRatedMoviesCubit, TopRatedMoviesState>(
-                bloc: context.read<TopRatedMoviesCubit>(),
-                builder: (context, state) {
-                  if (state is TopRatedMoviesLoading) {
-                    return const Center(
-                      key: Key('top_rated_movie_loading'),
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is TopRatedMoviesSuccess) {
-                    return MovieList(
-                      key: const Key('top_rated_movie_list'),
-                      movies: state.movies,
-                    );
-                  } else if (state is TopRatedMoviesFailure) {
-                    return Text(
-                      key: const Key('top_rated_movie_error'),
-                      state.message,
-                    );
-                  }
-                  return const Text('Failed');
-                },
-              ),
-            ],
+                SubheadingWidget(
+                  key: const Key('popular_movie_sub_heading'),
+                  title: 'Popular',
+                  onPress: () => Navigator.pushNamed(
+                    context,
+                    PopularMoviesPage.route,
+                  ),
+                ),
+                BlocBuilder<PopularMovieCubit, PopularMovieState>(
+                  bloc: context.read<PopularMovieCubit>(),
+                  builder: (context, state) {
+                    if (state is PopularMovieLoading) {
+                      return const Center(
+                        key: Key('popular_movie_loading'),
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is PopularMovieSucess) {
+                      return MovieList(
+                        key: const Key('popular_movie_list'),
+                        movies: state.movies,
+                      );
+                    } else if (state is PopularMovieFailure) {
+                      return Text(
+                        key: const Key('popular_movie_error'),
+                        state.message,
+                      );
+                    }
+                    return const Text('Failed');
+                  },
+                ),
+                SubheadingWidget(
+                  key: const Key('top_rated_movie_sub_heading'),
+                  title: 'Top Rated',
+                  onPress: () => Navigator.pushNamed(
+                    context,
+                    TopRatedMoviesPage.route,
+                  ),
+                ),
+                BlocBuilder<TopRatedMoviesCubit, TopRatedMoviesState>(
+                  bloc: context.read<TopRatedMoviesCubit>(),
+                  builder: (context, state) {
+                    if (state is TopRatedMoviesLoading) {
+                      return const Center(
+                        key: Key('top_rated_movie_loading'),
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is TopRatedMoviesSuccess) {
+                      return MovieList(
+                        key: const Key('top_rated_movie_list'),
+                        movies: state.movies,
+                      );
+                    } else if (state is TopRatedMoviesFailure) {
+                      return Text(
+                        key: const Key('top_rated_movie_error'),
+                        state.message,
+                      );
+                    }
+                    return const Text('Failed');
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
