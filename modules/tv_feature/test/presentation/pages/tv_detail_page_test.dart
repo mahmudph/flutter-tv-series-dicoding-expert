@@ -386,6 +386,32 @@ void main() {
   );
 
   testWidgets(
+    'should show message error when get get recommendartion failure',
+    (tester) async {
+      /// stub for initial state
+      mockFetchInitialData();
+
+      when(() => tvDetailCubit.state).thenReturn(
+        TvDetailsSuccess(tvDetail: testTvDetail),
+      );
+
+      when(() => tvRecommendationCubit.state).thenReturn(
+        const TvRecommendationFailure(
+          message: 'failed to get recommendation movies',
+        ),
+      );
+
+      when(() => tvWatchlistStatusCubit.state).thenReturn(
+        const TvWatchlistStatusData(isAddedWatchlist: true),
+      );
+
+      await tester.pumpWidget(makeTestableWidget(const TvDetailPage(id: 1)));
+
+      expect(find.text('failed to get recommendation movies'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
     'should navigate to the tv detail with spesific id',
     (tester) async {
       /// stub for initial state
@@ -419,7 +445,7 @@ void main() {
 
       expect(inkRecommendationItem, findsWidgets);
 
-      await tester.tap(inkRecommendationItem.first);
+      await tester.tap(inkRecommendationItem.first, warnIfMissed: false);
       await tester.pump();
 
       verify(
