@@ -343,9 +343,10 @@ void main() {
       await tester.pumpWidget(makeTestableWidget(const TvDetailPage(id: 1)));
 
       final tvSessionList = find.byType(TvSeasson);
-      expect(tvSessionList, findsWidgets);
 
-      await tester.tap(tvSessionList.first);
+      expect(tvSessionList, findsOneWidget);
+
+      await tester.tap(tvSessionList.first, warnIfMissed: false);
       await tester.pump();
 
       verify(() => mockNavigatorObserver.didPush(any(), any())).called(1);
