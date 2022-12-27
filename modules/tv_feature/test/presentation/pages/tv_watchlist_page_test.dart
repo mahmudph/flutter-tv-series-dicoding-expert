@@ -39,7 +39,7 @@ void main() {
           }
           throw Exception('');
         },
-        home: body,
+        home: Scaffold(body: body),
       ),
     );
   }
@@ -113,6 +113,34 @@ void main() {
       expect(listTvWidget, findsNothing);
       expect(find.byKey(const Key('error_message')), findsOneWidget);
       expect(find.text('no internet connection'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should navigate to the tvDetail page when watchlist is being click',
+    (tester) async {
+      /// stub
+      stubInitialState();
+
+      when(() => mockWatchlistCubit.state).thenReturn(
+        TvWatchlistSuccess(tv: testTvList),
+      );
+
+      await tester.pumpWidget(makeTestableWidget(const TvWatchlistPage()));
+
+      var listView = find.byType(ListView);
+      var listTvWidget = find.descendant(
+        of: listView,
+        matching: find.byType(TvCard),
+      );
+
+      expect(listView, findsOneWidget);
+      expect(listTvWidget, findsWidgets);
+
+      await tester.tap(listTvWidget.first);
+      await tester.pump();
+
+      verify(() => mockNavigtionObserver.didPush(any(), any()));
     },
   );
 }
