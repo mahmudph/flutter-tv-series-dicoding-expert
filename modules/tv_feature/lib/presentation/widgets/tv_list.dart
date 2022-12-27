@@ -7,7 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 class TvList extends StatelessWidget {
   final List<Tv> tvs;
 
-  const TvList(this.tvs, {super.key});
+  const TvList({Key? key, required this.tvs}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -6,19 +6,20 @@ import 'package:tv_feature/domain/entitas/session.dart';
 class TvSeasson extends StatelessWidget {
   final Season season;
   final String? defaultPosterPath;
+  final VoidCallback? onPress;
 
   const TvSeasson({
     super.key,
+    this.onPress,
     required this.season,
     required this.defaultPosterPath,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
+    return InkWell(
+      onTap: onPress,
       child: Stack(
-        alignment: Alignment.bottomLeft,
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(8)),

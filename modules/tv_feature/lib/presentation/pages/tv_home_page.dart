@@ -28,6 +28,10 @@ class _TvHomePageState extends State<TvHomePage> {
   @override
   void initState() {
     super.initState();
+    handleOnLoadData();
+  }
+
+  void handleOnLoadData() {
     Future.microtask(() {
       BlocProvider.of<TvPopularsCubit>(context, listen: false).fetchPopulartv();
       BlocProvider.of<TvTopRatedCubit>(context, listen: false)
@@ -48,7 +52,7 @@ class _TvHomePageState extends State<TvHomePage> {
       drawer: Drawer(
         child: DrawbableMenu(
           onPressMovies: () => navigate(context, widget.onPressMovies),
-          onPressAbout: () => navigate(context, widget.onPressWatchlist),
+          onPressAbout: () => navigate(context, widget.onPressAbout),
           onPressWatchlist: () => navigate(context, widget.onPressWatchlist),
           onPressTvs: () => navigate(context, TvHomePage.route),
         ),
@@ -66,79 +70,96 @@ class _TvHomePageState extends State<TvHomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SubheadingWidget(
-                key: const Key('on_the_air_tv'),
-                title: 'On The Air',
-                onPress: () => Navigator.pushNamed(
-                  context,
-                  TvOnTheAirPage.route,
+        child: RefreshIndicator(
+          onRefresh: () async => handleOnLoadData(),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SubheadingWidget(
+                  key: const Key('on_the_air_tv'),
+                  title: 'On The Air',
+                  onPress: () => Navigator.pushNamed(
+                    context,
+                    TvOnTheAirPage.route,
+                  ),
                 ),
-              ),
-              BlocBuilder<TvOnTheAirCubit, TvOnTheAirState>(
-                bloc: context.read<TvOnTheAirCubit>(),
-                builder: (context, state) {
-                  if (state is TvOnTheAirLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is TvOnTheAirSuccess) {
-                    return TvList(state.listOnTheAirTv);
-                  } else if (state is TvOnTheAirFailure) {
-                    return Text(state.message);
-                  }
-                  return const Text("Failed");
-                },
-              ),
-              SubheadingWidget(
-                key: const Key('popular_tv_list'),
-                title: 'Popular',
-                onPress: () => Navigator.pushNamed(
-                  context,
-                  TvPopularsPage.route,
+                BlocBuilder<TvOnTheAirCubit, TvOnTheAirState>(
+                  bloc: context.read<TvOnTheAirCubit>(),
+                  builder: (context, state) {
+                    if (state is TvOnTheAirLoading) {
+                      return const Center(
+                        key: Key('on_the_air_tv_loading'),
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is TvOnTheAirSuccess) {
+                      return TvList(
+                        key: const Key('on_the_air_tv_list'),
+                        tvs: state.listOnTheAirTv,
+                      );
+                    } else if (state is TvOnTheAirFailure) {
+                      return Text(state.message);
+                    }
+                    return const Text("Failed");
+                  },
                 ),
-              ),
-              BlocBuilder<TvPopularsCubit, TvPopularsState>(
-                bloc: context.read<TvPopularsCubit>(),
-                builder: (context, state) {
-                  if (state is TvPopularTvLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is TvPopularTvSuccess) {
-                    return TvList(state.listPopularTvTv);
-                  } else {
-                    return const Text('Failed');
-                  }
-                },
-              ),
-              SubheadingWidget(
-                key: const Key('top_rated_tv_list'),
-                title: 'Top Rated',
-                onPress: () => Navigator.pushNamed(
-                  context,
-                  TvTopRatedPage.route,
+                SubheadingWidget(
+                  key: const Key('populars_tv'),
+                  title: 'Popular',
+                  onPress: () => Navigator.pushNamed(
+                    context,
+                    TvPopularsPage.route,
+                  ),
                 ),
-              ),
-              BlocBuilder<TvTopRatedCubit, TvTopRatedState>(
-                bloc: context.read<TvTopRatedCubit>(),
-                builder: (context, state) {
-                  if (state is TvTopRatedTvLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is TvTopRatedTvSuccess) {
-                    return TvList(state.listTopRatedTv);
-                  } else if (state is TvTopRatedTvFailure) {
-                    return Text(state.message);
-                  }
-                  return const Text("Failed");
-                },
-              ),
-            ],
+                BlocBuilder<TvPopularsCubit, TvPopularsState>(
+                  bloc: context.read<TvPopularsCubit>(),
+                  builder: (context, state) {
+                    if (state is TvPopularTvLoading) {
+                      return const Center(
+                        key: Key('popular_tv_loading'),
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is TvPopularTvSuccess) {
+                      return TvList(
+                        key: const Key('populars_tv_list'),
+                        tvs: state.listPopularTvTv,
+                      );
+                    } else if (state is TvPopularTvFailure) {
+                      return Text(state.message);
+                    } else {
+                      return const Text('Failed');
+                    }
+                  },
+                ),
+                SubheadingWidget(
+                  key: const Key('top_rated_tv'),
+                  title: 'Top Rated',
+                  onPress: () => Navigator.pushNamed(
+                    context,
+                    TvTopRatedPage.route,
+                  ),
+                ),
+                BlocBuilder<TvTopRatedCubit, TvTopRatedState>(
+                  bloc: context.read<TvTopRatedCubit>(),
+                  builder: (context, state) {
+                    if (state is TvTopRatedTvLoading) {
+                      return const Center(
+                        key: Key('top_rated_tv_loading'),
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is TvTopRatedTvSuccess) {
+                      return TvList(
+                        key: const Key('top_rated_tv_list'),
+                        tvs: state.listTopRatedTv,
+                      );
+                    } else if (state is TvTopRatedTvFailure) {
+                      return Text(state.message);
+                    }
+                    return const Text("Failed");
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

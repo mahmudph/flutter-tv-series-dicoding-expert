@@ -5,3 +5,5 @@ export 'tv_recomendations/tv_recomendations_cubit.dart';
 export 'tv_search/tv_search_cubit.dart';
 export 'tv_watchlist/tv_watchlist_cubit.dart';
 export 'tv_watchlist_status/tv_watchlist_status_cubit.dart';
+export 'tv_sessions/tv_session_cubit.dart';
+export 'tv_session_episode/tv_session_episode_cubit.dart';

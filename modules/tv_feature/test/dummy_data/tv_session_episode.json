@@ -1,0 +1,32 @@
+{
+  "air_date": "2022-10-12",
+  "crew": [
+    {
+      "id": 44797,
+      "credit_id": "5256c8a219c2956ff6046e77",
+      "name": "Tim Van Patten",
+      "department": "Directing",
+      "job": "Director",
+      "profile_path": "/6b7l9YbkDHDOzOKUFNqBVaPjcgm.jpg"
+    }
+  ],
+  "episode_number": 1,
+  "guest_stars": [
+    {
+      "id": 117642,
+      "name": "Jason Momoa",
+      "credit_id": "5256c8a219c2956ff6046f40",
+      "character": "Khal Drogo",
+      "order": 0,
+      "profile_path": "/PSK6GmsVwdhqz9cd1lwzC6a7EA.jpg"
+    }
+  ],
+  "name": "name",
+  "overview": "overview",
+  "id": 1,
+  "production_code": "productionCode",
+  "season_number": 1,
+  "still_path": "/wrGWeW4WKxnaeA8sxJb2T9O6ryo.jpg",
+  "vote_average": 1.0,
+  "vote_count": 1
+}

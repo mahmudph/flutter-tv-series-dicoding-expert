@@ -110,6 +110,14 @@ void init(SecurityContext securityContext) {
     ),
   );
 
+  locator.registerFactory(
+    () => TvSessionCubit(getTvSession: locator()),
+  );
+
+  locator.registerFactory(
+    () => TvSessionEpisodeCubit(getTvSessionEpisode: locator()),
+  );
+
   // use case
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));
   locator.registerLazySingleton(() => GetPopularMovies(locator()));
@@ -132,6 +140,8 @@ void init(SecurityContext securityContext) {
   locator.registerLazySingleton(() => SaveWatchlistTv(locator()));
   locator.registerLazySingleton(() => RemoveWatchlistTv(locator()));
   locator.registerLazySingleton(() => GetWatchlistTv(locator()));
+  locator.registerLazySingleton(() => GetTvSession(locator()));
+  locator.registerLazySingleton(() => GetTvSessionEpisode(locator()));
 
   // repository
   locator.registerLazySingleton<MovieRepository>(

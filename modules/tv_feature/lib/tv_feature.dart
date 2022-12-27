@@ -5,6 +5,8 @@ export 'presentation/pages/tv_populars_page.dart';
 export 'presentation/pages/tv_search_page.dart';
 export 'presentation/pages/tv_top_rated_page.dart';
 export 'presentation/pages/tv_watchlist_page.dart';
+export 'presentation/pages/tv_session_page.dart';
+export 'presentation/pages/tv_session_episode_page.dart';
 
 /// table contract
 export 'data/datasources/commons/constrains.dart';
@@ -23,6 +25,8 @@ export 'domain/usecases/get_watchlist_tv_status.dart';
 export 'domain/usecases/remove_watchlist_tv.dart';
 export 'domain/usecases/save_watchlist_tv.dart';
 export 'domain/usecases/search_tv.dart';
+export 'domain/usecases/get_tv_session_episode.dart';
+export 'domain/usecases/get_tv_sessions.dart';
 
 /// repository
 export 'data/repositories/tv_repository_impl.dart';
@@ -35,3 +39,5 @@ export 'domain/entitas/genre.dart';
 export 'domain/entitas/session.dart';
 export 'domain/entitas/tv.dart';
 export 'domain/entitas/tv_detail.dart';
+export 'domain/entitas/tv_session.dart';
+export 'domain/entitas/episode.dart';
