@@ -1,14 +1,11 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tv_feature/domain/entitas/genre.dart';
-import 'package:tv_feature/domain/entitas/tv_detail.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:tv_feature/presentation/bloc/tv_details/tv_details_cubit.dart';
-import 'package:tv_feature/presentation/bloc/tv_recomendations/tv_recomendations_cubit.dart';
-import 'package:tv_feature/presentation/bloc/tv_watchlist_status/tv_watchlist_status_cubit.dart';
 import 'package:tv_feature/presentation/widgets/tv_seasson_list.dart';
+import 'package:tv_feature/tv_feature.dart';
 
 class TvDetailPage extends StatefulWidget {
   static const route = '/tv/detail';
@@ -200,6 +197,15 @@ class DetailContent extends StatelessWidget {
                                   return TvSeasson(
                                     season: tv.seasons[index],
                                     defaultPosterPath: tv.posterPath,
+                                    onPress: () => Navigator.pushNamed(
+                                      context,
+                                      TvSessionPage.route,
+                                      arguments: {
+                                        'tvId': tv.id,
+                                        'tvSessionId':
+                                            tv.seasons[index].seasonNumber,
+                                      },
+                                    ),
                                   );
                                 },
                                 scrollDirection: Axis.horizontal,
