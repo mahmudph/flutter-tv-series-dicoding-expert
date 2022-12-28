@@ -30,49 +30,84 @@ void main() {
 
   group('Now Playing Movies', () {
     test(
-        'should return remote data when the call to remote data source is successful',
-        () async {
-      // arrange
-      when(() => mockRemoteDataSource.getNowPlayingMovies())
-          .thenAnswer((_) async => tMovieModelList);
-      // act
-      final result = await repository.getNowPlayingMovies();
-      // assert
-      verify(() => mockRemoteDataSource.getNowPlayingMovies());
-      /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
-      final resultList = result.getOrElse(() => []);
-      expect(resultList, tMovieList);
-    });
+      'should return remote data when the call to remote data source is successful',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.getNowPlayingMovies())
+            .thenAnswer((_) async => tMovieModelList);
+        // act
+        final result = await repository.getNowPlayingMovies();
+        // assert
+        verify(() => mockRemoteDataSource.getNowPlayingMovies());
+        /* workaround to test List in Right. Issue: https://github.com/spebbe/dartz/issues/80 */
+        final resultList = result.getOrElse(() => []);
+        expect(resultList, tMovieList);
+      },
+    );
 
     test(
-        'should return server failure when the call to remote data source is unsuccessful',
-        () async {
-      // arrange
-      when(() => mockRemoteDataSource.getNowPlayingMovies()).thenThrow(
-        ServerException(message: ''),
-      );
-      // act
-      final result = await repository.getNowPlayingMovies();
-      // assert
-      verify(() => mockRemoteDataSource.getNowPlayingMovies());
-      expect(result, equals(const Left(ServerFailure(''))));
-    });
+      'should return server failure when the call to remote data source is unsuccessful',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.getNowPlayingMovies()).thenThrow(
+          ServerException(message: ''),
+        );
+        // act
+        final result = await repository.getNowPlayingMovies();
+        // assert
+        verify(() => mockRemoteDataSource.getNowPlayingMovies());
 
-    test(
-        'should return connection failure when the device is not connected to internet',
-        () async {
-      // arrange
-      when(() => mockRemoteDataSource.getNowPlayingMovies())
-          .thenThrow(const SocketException('Failed to connect to the network'));
-      // act
-      final result = await repository.getNowPlayingMovies();
-      // assert
-      verify(() => mockRemoteDataSource.getNowPlayingMovies());
-      expect(
+        expect(
           result,
-          equals(const Left(
-              ConnectionFailure('Failed to connect to the network'))));
-    });
+          equals(
+            const Left(ServerFailure('')),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should return connection failure when the device is not connected to internet',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.getNowPlayingMovies()).thenThrow(
+            const SocketException('Failed to connect to the network'));
+        // act
+        final result = await repository.getNowPlayingMovies();
+        // assert
+        verify(() => mockRemoteDataSource.getNowPlayingMovies());
+        expect(
+          result,
+          equals(
+            const Left(
+              ConnectionFailure('Failed to connect to the network'),
+            ),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should throw TLS Exception when hit outside reistered certificate ssl pinning ',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.getNowPlayingMovies()).thenThrow(
+          const TlsException('cannot handsake to the server'),
+        );
+        // act
+        final result = await repository.getNowPlayingMovies();
+        // assert
+        verify(() => mockRemoteDataSource.getNowPlayingMovies());
+        expect(
+          result,
+          equals(
+            const Left(
+              SSLFailure('cannot handsake to the server'),
+            ),
+          ),
+        );
+      },
+    );
   });
 
   group('Popular Movies', () {
@@ -115,6 +150,28 @@ void main() {
       expect(result,
           const Left(ConnectionFailure('Failed to connect to the network')));
     });
+
+    test(
+      'should throw TLS Exception when hit outside reistered certificate ssl pinning ',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.getPopularMovies()).thenThrow(
+          const TlsException('cannot handsake to the server'),
+        );
+        // act
+        final result = await repository.getPopularMovies();
+        // assert
+        verify(() => mockRemoteDataSource.getPopularMovies());
+        expect(
+          result,
+          equals(
+            const Left(
+              SSLFailure('cannot handsake to the server'),
+            ),
+          ),
+        );
+      },
+    );
   });
 
   group('Top Rated Movies', () {
@@ -154,6 +211,28 @@ void main() {
       expect(result,
           const Left(ConnectionFailure('Failed to connect to the network')));
     });
+
+    test(
+      'should throw TLS Exception when hit outside reistered certificate ssl pinning ',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.getTopRatedMovies()).thenThrow(
+          const TlsException('cannot handsake to the server'),
+        );
+        // act
+        final result = await repository.getTopRatedMovies();
+        // assert
+        verify(() => mockRemoteDataSource.getTopRatedMovies());
+        expect(
+          result,
+          equals(
+            const Left(
+              SSLFailure('cannot handsake to the server'),
+            ),
+          ),
+        );
+      },
+    );
   });
 
   group(
@@ -213,6 +292,28 @@ void main() {
           );
         },
       );
+
+      test(
+        'should throw TLS Exception when hit outside reistered certificate ssl pinning ',
+        () async {
+          // arrange
+          when(() => mockRemoteDataSource.getMovieDetail(tId)).thenThrow(
+            const TlsException('cannot handsake to the server'),
+          );
+          // act
+          final result = await repository.getMovieDetail(tId);
+          // assert
+          verify(() => mockRemoteDataSource.getMovieDetail(tId));
+          expect(
+            result,
+            equals(
+              const Left(
+                SSLFailure('cannot handsake to the server'),
+              ),
+            ),
+          );
+        },
+      );
     },
   );
 
@@ -266,6 +367,27 @@ void main() {
         ),
       );
     });
+    test(
+      'should throw TLS Exception when hit outside reistered certificate ssl pinning ',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.getMovieRecommendations(tId)).thenThrow(
+          const TlsException('cannot handsake to the server'),
+        );
+        // act
+        final result = await repository.getMovieRecommendations(tId);
+        // assert
+        verify(() => mockRemoteDataSource.getMovieRecommendations(tId));
+        expect(
+          result,
+          equals(
+            const Left(
+              SSLFailure('cannot handsake to the server'),
+            ),
+          ),
+        );
+      },
+    );
   });
 
   group('Seach Movies', () {
@@ -308,6 +430,28 @@ void main() {
       expect(result,
           const Left(ConnectionFailure('Failed to connect to the network')));
     });
+
+    test(
+      'should throw TLS Exception when hit outside reistered certificate ssl pinning ',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.searchMovies(tQuery)).thenThrow(
+          const TlsException('cannot handsake to the server'),
+        );
+        // act
+        final result = await repository.searchMovies(tQuery);
+        // assert
+        verify(() => mockRemoteDataSource.searchMovies(tQuery));
+        expect(
+          result,
+          equals(
+            const Left(
+              SSLFailure('cannot handsake to the server'),
+            ),
+          ),
+        );
+      },
+    );
   });
 
   group('save watchlist', () {

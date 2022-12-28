@@ -122,6 +122,28 @@ void main() {
         )),
       );
     });
+
+    test(
+      'should return connection failure when the device is not connected to internet',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.getOnTheAirTVShows()).thenThrow(
+          const TlsException('cant establise handshake to the server'),
+        );
+        // act
+        final result = await repository.getOnTheAirTVShows();
+        // assert
+        verify(() => mockRemoteDataSource.getOnTheAirTVShows());
+        expect(
+          result,
+          equals(
+            const Left(
+              SSLFailure('cant establise handshake to the server'),
+            ),
+          ),
+        );
+      },
+    );
   });
 
   group('Popular Tvs', () {
@@ -177,6 +199,27 @@ void main() {
         ),
       );
     });
+    test(
+      'should return connection failure when the device is not connected to internet',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.getPopularTvs()).thenThrow(
+          const TlsException('cant establise handshake to the server'),
+        );
+        // act
+        final result = await repository.getPopularTvs();
+        // assert
+        verify(() => mockRemoteDataSource.getPopularTvs());
+        expect(
+          result,
+          equals(
+            const Left(
+              SSLFailure('cant establise handshake to the server'),
+            ),
+          ),
+        );
+      },
+    );
   });
 
   group('Top Rated tv', () {
@@ -229,112 +272,159 @@ void main() {
         );
       },
     );
-  });
-
-  group('Get tv Detail', () {
-    const tId = 1;
-    final tvDetailRes = TvDetailResponse(
-      backdropPath: 'backdropPath',
-      episodeRunTime: const [2],
-      firstAirDate: DateTime.now(),
-      genres: const [GenreModel(id: 1, name: 'name')],
-      homepage: 'homepage',
-      id: 1,
-      inProduction: false,
-      languages: const ['us'],
-      lastAirDate: DateTime.now(),
-      lastEpisodeToAir: LastEpisodeToAirModel(
-        airDate: DateTime.now(),
-        episodeNumber: 2,
-        id: 2,
-        name: 'name',
-        overview: 'overview',
-        productionCode: '12',
-        seasonNumber: 1,
-        stillPath: 'stillPath',
-        voteAverage: 2.2,
-        voteCount: 11,
-      ),
-      name: 'name',
-      nextEpisodeToAir: 'nextEpisodeToAir',
-      numberOfEpisodes: 1,
-      numberOfSeasons: 2,
-      originCountry: const ['originCountry'],
-      originalLanguage: 'originalLanguage',
-      originalName: 'originalName',
-      overview: 'overview',
-      popularity: 2.2,
-      posterPath: 'posterPath',
-      seasons: const [
-        SeasonModel(
-          airDate: "2022-08-10",
-          episodeCount: 1,
-          id: 2,
-          name: 'name',
-          overview: 'overview',
-          posterPath: 'posterPath',
-          seasonNumber: 2,
-        )
-      ],
-      status: 'status',
-      tagline: 'tagline',
-      type: 'type',
-      voteAverage: 2.1,
-      voteCount: 22,
-    );
-
     test(
-        'should return tv data when the call to remote data source is successful',
-        () async {
-      // arrange
-      when(() => mockRemoteDataSource.getTvDetail(tId))
-          .thenAnswer((_) async => tvDetailRes);
-      // act
-      final result = await repository.getTvDetail(tId);
-      // assert
-      verify(() => mockRemoteDataSource.getTvDetail(tId));
-      expect(result, equals(Right(tvDetailRes.toEntity())));
-    });
-
-    test(
-      'should return Server Failure when the call to remote data source is unsuccessful',
+      'should return connection failure when the device is not connected to internet',
       () async {
         // arrange
-        when(() => mockRemoteDataSource.getTvDetail(tId)).thenThrow(
-          ServerException(),
+        when(() => mockRemoteDataSource.getTopRatedTvs()).thenThrow(
+          const TlsException('cant establise handshake to the server'),
         );
-
         // act
-        final result = await repository.getTvDetail(tId);
+        final result = await repository.getTopRatedTvs();
         // assert
-        verify(() => mockRemoteDataSource.getTvDetail(tId));
+        verify(() => mockRemoteDataSource.getTopRatedTvs());
         expect(
           result,
           equals(
             const Left(
-              ServerFailure('No internet connection available'),
+              SSLFailure('cant establise handshake to the server'),
             ),
           ),
         );
       },
     );
+  });
 
-    test(
+  group(
+    'Get tv Detail',
+    () {
+      const tId = 1;
+      final tvDetailRes = TvDetailResponse(
+        backdropPath: 'backdropPath',
+        episodeRunTime: const [2],
+        firstAirDate: DateTime.now(),
+        genres: const [GenreModel(id: 1, name: 'name')],
+        homepage: 'homepage',
+        id: 1,
+        inProduction: false,
+        languages: const ['us'],
+        lastAirDate: DateTime.now(),
+        lastEpisodeToAir: LastEpisodeToAirModel(
+          airDate: DateTime.now(),
+          episodeNumber: 2,
+          id: 2,
+          name: 'name',
+          overview: 'overview',
+          productionCode: '12',
+          seasonNumber: 1,
+          stillPath: 'stillPath',
+          voteAverage: 2.2,
+          voteCount: 11,
+        ),
+        name: 'name',
+        nextEpisodeToAir: 'nextEpisodeToAir',
+        numberOfEpisodes: 1,
+        numberOfSeasons: 2,
+        originCountry: const ['originCountry'],
+        originalLanguage: 'originalLanguage',
+        originalName: 'originalName',
+        overview: 'overview',
+        popularity: 2.2,
+        posterPath: 'posterPath',
+        seasons: const [
+          SeasonModel(
+            airDate: "2022-08-10",
+            episodeCount: 1,
+            id: 2,
+            name: 'name',
+            overview: 'overview',
+            posterPath: 'posterPath',
+            seasonNumber: 2,
+          )
+        ],
+        status: 'status',
+        tagline: 'tagline',
+        type: 'type',
+        voteAverage: 2.1,
+        voteCount: 22,
+      );
+
+      test(
+          'should return tv data when the call to remote data source is successful',
+          () async {
+        // arrange
+        when(() => mockRemoteDataSource.getTvDetail(tId))
+            .thenAnswer((_) async => tvDetailRes);
+        // act
+        final result = await repository.getTvDetail(tId);
+        // assert
+        verify(() => mockRemoteDataSource.getTvDetail(tId));
+        expect(result, equals(Right(tvDetailRes.toEntity())));
+      });
+
+      test(
+        'should return Server Failure when the call to remote data source is unsuccessful',
+        () async {
+          // arrange
+          when(() => mockRemoteDataSource.getTvDetail(tId)).thenThrow(
+            ServerException(),
+          );
+
+          // act
+          final result = await repository.getTvDetail(tId);
+          // assert
+          verify(() => mockRemoteDataSource.getTvDetail(tId));
+          expect(
+            result,
+            equals(
+              const Left(
+                ServerFailure('No internet connection available'),
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
         'should return connection failure when the device is not connected to internet',
         () async {
-      // arrange
-      when(() => mockRemoteDataSource.getTvDetail(tId))
-          .thenThrow(const SocketException('Failed to connect to the network'));
-      // act
-      final result = await repository.getTvDetail(tId);
-      // assert
-      verify(() => mockRemoteDataSource.getTvDetail(tId));
-      expect(
-          result,
-          equals(const Left(
-              ConnectionFailure('Failed to connect to the network'))));
-    });
-  });
+          // arrange
+          when(() => mockRemoteDataSource.getTvDetail(tId)).thenThrow(
+              const SocketException('Failed to connect to the network'));
+          // act
+          final result = await repository.getTvDetail(tId);
+          // assert
+          verify(() => mockRemoteDataSource.getTvDetail(tId));
+          expect(
+              result,
+              equals(const Left(
+                  ConnectionFailure('Failed to connect to the network'))));
+        },
+      );
+
+      test(
+        'should return connection failure when the device is not connected to internet',
+        () async {
+          // arrange
+          when(() => mockRemoteDataSource.getTvDetail(tId)).thenThrow(
+            const TlsException('cant establise handshake to the server'),
+          );
+          // act
+          final result = await repository.getTvDetail(tId);
+          // assert
+          verify(() => mockRemoteDataSource.getTvDetail(tId));
+          expect(
+            result,
+            equals(
+              const Left(
+                SSLFailure('cant establise handshake to the server'),
+              ),
+            ),
+          );
+        },
+      );
+    },
+  );
 
   group(
     'Get Tv Recommendations',
@@ -390,9 +480,35 @@ void main() {
           // assert
           verify(() => mockRemoteDataSource.getTvRecommendations(tId));
           expect(
-              result,
-              equals(const Left(
-                  ConnectionFailure('Failed to connect to the network'))));
+            result,
+            equals(
+              const Left(
+                ConnectionFailure('Failed to connect to the network'),
+              ),
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return connection failure when the device is not connected to internet',
+        () async {
+          // arrange
+          when(() => mockRemoteDataSource.getTvRecommendations(tId)).thenThrow(
+            const TlsException('cant establise handshake to the server'),
+          );
+          // act
+          final result = await repository.getTvRecommendations(tId);
+          // assert
+          verify(() => mockRemoteDataSource.getTvRecommendations(tId));
+          expect(
+            result,
+            equals(
+              const Left(
+                SSLFailure('cant establise handshake to the server'),
+              ),
+            ),
+          );
         },
       );
     },
@@ -431,17 +547,44 @@ void main() {
     });
 
     test(
-        'should return ConnectionFailure when device is not connected to the internet',
-        () async {
-      // arrange
-      when(() => mockRemoteDataSource.searchTvs(tQuery))
-          .thenThrow(const SocketException('Failed to connect to the network'));
-      // act
-      final result = await repository.searchTvs(tQuery);
-      // assert
-      expect(result,
-          const Left(ConnectionFailure('Failed to connect to the network')));
-    });
+      'should return ConnectionFailure when device is not connected to the internet',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.searchTvs(tQuery)).thenThrow(
+            const SocketException('Failed to connect to the network'));
+        // act
+        final result = await repository.searchTvs(tQuery);
+        // assert
+        expect(
+          result,
+          const Left(
+            ConnectionFailure('Failed to connect to the network'),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should return connection failure when the device is not connected to internet',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.searchTvs(tQuery)).thenThrow(
+          const TlsException('cant establise handshake to the server'),
+        );
+        // act
+        final result = await repository.searchTvs(tQuery);
+        // assert
+        verify(() => mockRemoteDataSource.searchTvs(tQuery));
+        expect(
+          result,
+          equals(
+            const Left(
+              SSLFailure('cant establise handshake to the server'),
+            ),
+          ),
+        );
+      },
+    );
   });
 
   group('save watchlist tv', () {
@@ -587,6 +730,29 @@ void main() {
         expect(result, const Right(tvSession));
       },
     );
+
+    test(
+      'should return connection failure when the device is not connected to internet',
+      () async {
+        // arrange
+        when(() => mockRemoteDataSource.getTvSession(tvId, tvSessionId))
+            .thenThrow(
+          const TlsException('cant establise handshake to the server'),
+        );
+        // act
+        final result = await repository.getTvSession(tvId, tvSessionId);
+        // assert
+        verify(() => mockRemoteDataSource.getTvSession(tvId, tvSessionId));
+        expect(
+          result,
+          equals(
+            const Left(
+              SSLFailure('cant establise handshake to the server'),
+            ),
+          ),
+        );
+      },
+    );
   });
 
   group(
@@ -658,6 +824,44 @@ void main() {
             result,
             const Left(
               ServerFailure('No internet connection available'),
+            ),
+          );
+        },
+      );
+
+      test(
+        'should return connection failure when the device is not connected to internet',
+        () async {
+          // arrange
+          when(
+            () => mockRemoteDataSource.getSessionEpisode(
+              tvId,
+              tvSessionId,
+              tvSessionEpisodeId,
+            ),
+          ).thenThrow(
+            const TlsException('cant establise handshake to the server'),
+          );
+          // act
+          final result = await repository.getEpisodeBySession(
+            tvId,
+            tvSessionId,
+            tvSessionEpisodeId,
+          );
+          // assert
+          verify(
+            () => mockRemoteDataSource.getSessionEpisode(
+              tvId,
+              tvSessionId,
+              tvSessionEpisodeId,
+            ),
+          );
+          expect(
+            result,
+            equals(
+              const Left(
+                SSLFailure('cant establise handshake to the server'),
+              ),
             ),
           );
         },

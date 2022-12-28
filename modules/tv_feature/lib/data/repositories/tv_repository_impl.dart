@@ -29,6 +29,8 @@ class TvRepositoryImpl implements TvRepository {
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     } on SocketException {
       return Left(ConnectionFailure(noInternetConnection));
     }
@@ -41,6 +43,8 @@ class TvRepositoryImpl implements TvRepository {
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     } on SocketException {
       return Left(ConnectionFailure(noInternetConnection));
     }
@@ -53,6 +57,8 @@ class TvRepositoryImpl implements TvRepository {
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     } on SocketException {
       return Left(ConnectionFailure(noInternetConnection));
     }
@@ -65,6 +71,8 @@ class TvRepositoryImpl implements TvRepository {
       return Right(result.toEntity());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     } on SocketException {
       return Left(ConnectionFailure(noInternetConnection));
     }
@@ -77,6 +85,8 @@ class TvRepositoryImpl implements TvRepository {
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     } on SocketException {
       return Left(ConnectionFailure(noInternetConnection));
     }
@@ -133,6 +143,8 @@ class TvRepositoryImpl implements TvRepository {
       return Right(result.map((model) => model.toEntity()).toList());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     } on SocketException {
       return Left(ConnectionFailure(noInternetConnection));
     }
@@ -155,6 +167,8 @@ class TvRepositoryImpl implements TvRepository {
       return Right(result.toEntity());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     } on SocketException {
       return Left(ConnectionFailure(noInternetConnection));
     }
@@ -170,6 +184,8 @@ class TvRepositoryImpl implements TvRepository {
       return Right(result.toEntity());
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on TlsException catch (e) {
+      return Left(SSLFailure(e.message));
     } on SocketException {
       return Left(ConnectionFailure(noInternetConnection));
     }
