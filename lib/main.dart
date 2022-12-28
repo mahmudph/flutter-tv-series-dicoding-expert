@@ -4,8 +4,6 @@ import 'package:ditonton/injection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:ditonton/presentation/pages/about_page.dart';
-import 'package:ditonton/presentation/pages/watchlist_page.dart';
 import 'package:ditonton/injection.dart' as di;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:ditonton/presentation/pages/routes/routes.dart';
@@ -13,6 +11,8 @@ import 'package:movie_feature/movie_feature.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:tv_feature/presentation/bloc/tv_details/tv_details_cubit.dart';
 import 'package:tv_feature/tv_feature.dart';
+
+import 'presentation/pages/splashscreen_page.dart';
 
 void main() async {
   runZonedGuarded<Future<void>>(
@@ -106,11 +106,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: kRichBlack,
           textTheme: kTextTheme,
         ),
-        home: HomeMoviePage(
-          onPressAbout: AboutPage.route,
-          onPressTvs: TvHomePage.route,
-          onPressWatchlist: WatchlistPage.route,
-        ),
+        home: SplashscreenPage(),
       ),
     );
   }
