@@ -1,5 +1,9 @@
 # Di Tonton Aja
-![workflow](https://github.com/mahmudph/flutter-tv-series-dicoding-expert/actions/workflows/test.yml/badge.svg?branch=submission-2)
+
+![test status](https://github.com/mahmudph/flutter-tv-series-dicoding-expert/actions/workflows/test.yml/badge.svg?branch=submission-2)
+
+![build status](https://github.com/mahmudph/flutter-tv-series-dicoding-expert/actions/workflows/build.yml/badge.svg)
+
 ## Tips Untuk menjalankan project ini
 
 1. Buat file .env berdasarkan .env.example (Wajib)
