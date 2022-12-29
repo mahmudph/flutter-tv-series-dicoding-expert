@@ -51,6 +51,7 @@ void main() {
       final tvListViews = find.descendant(
         of: tvListView,
         matching: find.byType(InkWell),
+        matchRoot: false,
       );
 
       expect(tvListViews, findsWidgets);
@@ -60,7 +61,9 @@ void main() {
         randomTvKey == 'on_the_air_tv_list'
             ? tvListViews.at(1)
             : tvListViews.first,
+        warnIfMissed: false,
       );
+
       await tester.pumpAndSettle(Duration(seconds: 1));
 
       await binding.takeScreenshot('tvs_detail_${randomTvKey}_page');
