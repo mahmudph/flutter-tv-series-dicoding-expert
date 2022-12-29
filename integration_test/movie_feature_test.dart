@@ -43,7 +43,7 @@ void main() {
 
       // tap and then navigate to the movie detail
       await tester.tap(topRatedMovieFirst.first);
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 1));
 
       await binding.takeScreenshot('movie_detail_${randomMovieKey}_page');
 

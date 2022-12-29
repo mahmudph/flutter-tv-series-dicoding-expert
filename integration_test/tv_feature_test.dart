@@ -61,12 +61,14 @@ void main() {
             ? tvListViews.at(1)
             : tvListViews.first,
       );
-      await tester.pumpAndSettle();
+      await tester.pumpAndSettle(Duration(seconds: 1));
 
       await binding.takeScreenshot('tvs_detail_${randomTvKey}_page');
 
       /// find a button for adding tvs into watchlist
       final watchlistBtn = find.byType(ElevatedButton);
+
+      expect(watchlistBtn, findsOneWidget);
 
       final watchlistBtnIconAdd = find.descendant(
         of: watchlistBtn,
@@ -74,8 +76,6 @@ void main() {
       );
 
       /// watchlist btn with icon should be exist or showing in the widgets
-      ///
-      expect(watchlistBtn, findsOneWidget);
       expect(watchlistBtnIconAdd, findsOneWidget);
 
       await tester.tap(watchlistBtn);
