@@ -37,5 +37,5 @@ jobs:
 
       - uses: actions/download-artifact@v3
         with:
-          name: download screnshot
+          name: ditontonAja.apk
           path: build/app/outputs/apk/release/app-release.apk
