@@ -47,11 +47,10 @@ jobs:
         with:
           flutter-version: "3.3.8"
 
-      - run: echo ${{ secrets.ENV }}| base64 -d > .env
-
-      - run: echo ${{ secrets.GOOGLE_SERVICES }} | base64 -d > ./android/app/google-services.json
-      - run: echo ${{ secrets.KEY_PROPERTIES }} | base64 -d > ./android/key.properties
-      - run: echo ${{ secrets.KEYSTONE_JKS }} | base64 -d > ./android/app/keystone.jks
+      - run: echo ${{ secrets.ENV }} | base64 -d > .env
+      - run: echo ${{ secrets.KEY_PROPERTIES }} | base64 -d > android/key.properties
+      - run: echo ${{ secrets.KEYSTONE_JKS }} | base64 -d > android/app/keystone.jks
+      - run: echo ${{ secrets.GOOGLE_SERVICES }} | base64 -d > android/app/google-services.json
 
       - run: flutter --version
       - run: flutter pub get
