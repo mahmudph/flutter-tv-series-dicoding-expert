@@ -70,3 +70,12 @@ jobs:
         with:
           name: screenshot
           path: screenshots/
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: download screnshot
+          path: screenshots/
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: screenshots/
