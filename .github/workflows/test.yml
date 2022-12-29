@@ -70,3 +70,8 @@ jobs:
         with:
           name: screenshot
           path: screenshots/
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: screenshot
+          path: screenshots/
