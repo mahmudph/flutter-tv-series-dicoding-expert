@@ -48,15 +48,19 @@ void main() {
       expect(tvListView, findsOneWidget);
 
       /// find sample of the list top rated tvss
-      final topRatedtvsFirst = find.descendant(
+      final tvListViews = find.descendant(
         of: tvListView,
         matching: find.byType(InkWell),
       );
 
-      expect(topRatedtvsFirst, findsWidgets);
+      expect(tvListViews, findsWidgets);
 
       // tap and then navigate to the tvs detail
-      await tester.tap(topRatedtvsFirst.first);
+      await tester.tap(
+        randomTvKey == 'on_the_air_tv_list'
+            ? tvListViews.at(1)
+            : tvListViews.first,
+      );
       await tester.pumpAndSettle();
 
       await binding.takeScreenshot('tvs_detail_${randomTvKey}_page');
