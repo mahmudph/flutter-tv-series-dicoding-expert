@@ -4,7 +4,7 @@ on:
 jobs:
   release:
     runs-on: macos-latest
-    if: github.ref == 'ref/head/main'
+    # if: github.ref == 'ref/head/main'
     steps:
       - name: Generate versions
         uses: HardNorth/github-version-generate@v1.3.0
