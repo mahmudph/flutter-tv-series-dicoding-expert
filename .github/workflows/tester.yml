@@ -13,6 +13,6 @@ jobs:
         with:
           version-source: file
           version-file: pubspec.yaml
-          version-file-extraction-pattern: "(?<=version=).+"
+          version-file-extraction-pattern: "(?<=version:).+"
       - run: echo ${{ env.NEXT_VERSION }}
       - run: echo ${{ env.RELEASE_VERSION }}
