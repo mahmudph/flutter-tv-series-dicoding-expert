@@ -1,5 +1,5 @@
 on:
-  push:
+  # push:
   pull_request:
 
 jobs:
@@ -71,7 +71,8 @@ jobs:
           name: screenshot
           path: screenshots/
 
-      - uses: actions/download-artifact@v3
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
         with:
           name: screenshot
           path: screenshots/
