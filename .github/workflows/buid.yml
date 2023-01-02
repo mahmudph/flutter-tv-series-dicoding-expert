@@ -1,10 +1,10 @@
 on:
   push:
     branches:
-      - main
+      - develop
   pull_request:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
@@ -32,10 +32,10 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: apk
+          name: ditonton-aja-${{ github.event.pull_request.head.sha }}.apk
           path: build/app/outputs/apk/release/app-release.apk
 
-      - uses: actions/download-artifact@v3
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
         with:
-          name: ditontonAja.apk
-          path: build/app/outputs/apk/release/app-release.apk
+          name: ditonton-aja-${{ github.event.pull_request.head.sha }}.apk
