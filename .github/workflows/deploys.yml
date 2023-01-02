@@ -10,24 +10,44 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-java@v2
-        with:
-          distribution: "zulu"
-          java-version: "11"
+      - name: Define version variable
+        run: |
+          if grep -q "major" $GITHUB_EVENT_PATH; then
+            echo "version=major >> $GITHUB_OUTPUT"
+          elif grep -q "minor" $GITHUB_EVENT_PATH; then
+            echo "version=minor >> $GITHUB_OUTPUT"
+          else
+            echo "version=patch >> $GITHUB_OUTPUT"
+          fi
+
+      # - name: Get the start word in the pull request body
+      #   run: |
+      #     start_word=$(cat $GITHUB_EVENT_PATH | jq -r '.pull_request.body' | awk -F: '{print $1}')
+      #     echo "START_WORD::$start_word >> $GITHUB_OUTPUT"
 
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.3.8"
 
+      - uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "11"
+
       - run: echo ${{ secrets.ENV }}| base64 -d > .env
+
       - run: flutter --version
       - run: flutter pub get
-
-      - run: flutter test
 
       - run: echo ${{ secrets.GOOGLE_SERVICES }} | base64 -d > android/app/google-services.json
       - run: echo ${{ secrets.KEY_PROPERTIES }} | base64 -d > android/key.properties
       - run: echo ${{ secrets.KEYSTONE_JKS }} | base64 -d > android/app/keystone.jks
+
+      - name: Download flutter dependency
+        run: flutter pub get
+
+      - name: bump flutter version
+        run: flutter pub run cider bump ${{ outputs.version }} --bump-build
 
       - run: flutter build appbundle --release
       - run: flutter build apk --release
@@ -42,6 +62,30 @@ jobs:
           name: ditonton-aja.apk
           path: build/app/outputs/apk/release/app-release.apk
 
+      - name: get the current version
+        # get the version after bump
+        if: github.ref == 'ref/head/main'
+        run: echo "version_number=$(flutter pub run cider version) >> $GITHUB_OUTPUT"
+
+      - name: update CHANGELOG.md file
+        if: github.ref == 'ref/head/main'
+        run: |
+          while read -r line; do
+            flutter pub run cider log added $line
+          done < <(cat $GITHUB_EVENT_PATH | jq -r '.pull_request.body')
+
+          flutter pub run cider release --date=today
+
+      - name: Update bump version
+        if: github.ref == 'ref/head/main'
+
+        run: |
+          git config --global user.name 'Github Bot'
+          git config --global user.email 'github-boot@noreply.github.com'
+          git add .
+          git commit -m 'bump version to ${{ GITHUB_OUTPUT.version_number }}'
+          git push
+
   deploy:
     runs-on: macos-latest
     needs: build-prod
@@ -51,6 +95,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ditonton-aja.abb
+      - name: Generate Service Account Json File
+        run: echo ${{ secrets.SERVICE_ACCOUNT_JSON }} | base64 -d > android/app/service-account.json
 
       - name: Publish Android App with hight priority
         uses: r0adkll/upload-google-play@v1
@@ -58,7 +104,7 @@ jobs:
         if: github.ref == 'ref/head/main' and contains(github.event.head_commit.message, 'hotfix')
 
         with:
-          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          serviceAccountJson: android/app/service-account.json
           packageName: com.dicoding.ditonton
           releaseFiles: ${{ steps.download.outputs.download-path }}
           track: production
@@ -73,7 +119,7 @@ jobs:
         if: github.ref == 'ref/head/main' and !contains(github.event.head_commit.message, 'hotfix')
 
         with:
-          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          serviceAccountJson: android/app/service-account.json
           packageName: com.dicoding.ditonton
           releaseFiles: ${{ steps.download.outputs.download-path }}
           track: production
@@ -88,7 +134,7 @@ jobs:
         if: github.ref == 'ref/head/develop'
 
         with:
-          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          serviceAccountJson: android/app/service-account.json
           packageName: com.dicoding.ditonton
           releaseFiles: ${{ steps.download.outputs.download-path }}
           track: internal
@@ -101,7 +147,8 @@ jobs:
     runs-on: macos-latest
     if: github.ref == 'ref/head/main'
 
-    needs: deploy
+    needs: build-prod
+
     steps:
       - uses: actions/checkout@v3
 
@@ -122,7 +169,7 @@ jobs:
       - name: Create tag
         uses: actions/create-tag@v1
         with:
-          tag: v${{ steps.generate-version.outputs.version }}
+          tag: v${{ needs.build-prod.outputs.version_number }}
           ref: ${{ github.event.pull_request.merged_commit.sha }}
 
       - name: Create release
@@ -130,9 +177,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.generate-version.outputs.version }}
-          release_name: Release ${{ steps.generate-version.outputs.version }}
-
+          tag_name: v${{ needs.build-prod.outputs.version_number }}
+          release_name: Release v${{ needs.build-prod.outputs.version_number }}
           draft: false
           prerelease: false
 
@@ -143,7 +189,7 @@ jobs:
 
           file: build/app/outputs/*
 
-          tag: ${{ steps.generate-version.outputs.version }}
-          asset_name: Ditonton-aja-${{ steps.generate-version.outputs.version }}
+          tag: v${{ needs.build-prod.outputs.version_number }}
+          asset_name: Ditonton-aja-${{ needs.build-prod.outputs.version_number }}
           overwrite: true
           file_glob: true
