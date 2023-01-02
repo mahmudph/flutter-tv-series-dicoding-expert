@@ -39,4 +39,3 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ditonton-aja-${{ github.event.pull_request.head.sha }}.apk
-          path: build/app/outputs/apk/release/app-release.apk
